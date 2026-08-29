@@ -362,14 +362,6 @@ html:not(.js) .depth { display: none; }
   text-align: center; color: var(--sub);
   margin-bottom: 4.5em;
 }
-.fnref { line-height: 0; }
-.fnref a {
-  font-size: .68em;
-  font-family: var(--gothic); font-weight: 500;
-  text-decoration: none;
-  padding: 0 .1em;
-}
-.fnref a:hover { text-decoration: underline; }
 .signature {
   max-width: var(--measure);
   margin: 4.5em auto 0;
@@ -442,36 +434,6 @@ html.js figure.rec .frame.in { opacity: 1; transform: none; }
   font-family: var(--serif); font-weight: 900;
   font-size: 1.55rem; letter-spacing: .3em;
 }
-.sec-note {
-  max-width: var(--measure); margin: -1.5em auto 4em;
-  font-family: var(--gothic); font-weight: 300;
-  font-size: 12px; letter-spacing: .1em; line-height: 2;
-  color: var(--sub);
-}
-
-/* ---------------- 註 ---------------- */
-.notes { list-style: none; max-width: 39em; margin: 0 auto; }
-.note {
-  position: relative;
-  font-family: var(--gothic); font-weight: 300;
-  font-size: 15px; line-height: 1.95; letter-spacing: .02em;
-  padding: 2.2em 0 2.2em 3.2em;
-  border-top: 1px solid var(--rule);
-}
-.note:last-child { border-bottom: 1px solid var(--rule); }
-.note::before {
-  content: "（" attr(data-n) "）";
-  position: absolute; left: 0; top: 2.35em;
-  font-size: 13px; letter-spacing: 0;
-  color: var(--accent);
-}
-.note p + p { margin-top: 1.1em; }
-.note:target, .note.lit { background: color-mix(in srgb, var(--accent) 7%, transparent); }
-.note { scroll-margin-top: 90px; }
-.fnref { scroll-margin-top: 110px; }
-@media (max-width: 640px) {
-  .note { font-size: 14px; padding-left: 2.6em; }
-}
 
 /* ---------------- ボタンの間 ---------------- */
 .button-room { text-align: center; }
@@ -532,7 +494,6 @@ html.js figure.rec .frame.in { opacity: 1; transform: none; }
   <nav aria-label="ページ内">
     <a href="#statement">ステートメント</a>
     <a href="#record">記録</a>
-    <a href="#notes">註</a>
     <a href="#info">概要</a>
   </nav>
 </header>
@@ -574,10 +535,10 @@ html.js figure.rec .frame.in { opacity: 1; transform: none; }
     <div class="ch-mark" aria-hidden="true">Ⅰ</div>
     <div class="prose">
       <div class="tgroup">
-        <p>リミナルスペースとは、かつて「オルタナティブ・スペース」と呼ばれていたものの「死体」である<sup class="fnref" id="fnref-1"><a href="#fn-1" role="doc-noteref" aria-label="註1へ">（1）</a></sup>。</p>
+        <p>リミナルスペースとは、かつて「オルタナティブ・スペース」と呼ばれていたものの「死体」である。</p>
       </div>
       <div class="tgroup">
-        <p>もちろん、ネットミームとしてのリミナルスペースは、決してそのように定義されてこなかった。インターネット上のリミナルスペースに「新たな美学」を見出そうとする人々は概ね、それらを現代における最新の「不気味なもの」、つまり新しい「外部」や「他者」として受け取り、ネットカルチャー発の創造的ムーブメントに違いないと言祝いでいる<sup class="fnref" id="fnref-2"><a href="#fn-2" role="doc-noteref" aria-label="註2へ">（2）</a></sup>。</p>
+        <p>もちろん、ネットミームとしてのリミナルスペースは、決してそのように定義されてこなかった。インターネット上のリミナルスペースに「新たな美学」を見出そうとする人々は概ね、それらを現代における最新の「不気味なもの」、つまり新しい「外部」や「他者」として受け取り、ネットカルチャー発の創造的ムーブメントに違いないと言祝いでいる。</p>
       </div>
       <div class="tgroup">
         <p>しかし、そのようなトレンドの「美学化」「言語化」こそが、私たちの目の前に転がる「オルタナティブ・スペースの死体」を覆い隠す。いくらリミナル性についての理論を遡り、ブルータリズム建築やシュルレアリスムとの類似、影響関係を並べたてたところで、結局のところ、それらは不気味さや不穏さ、奇妙なノスタルジーといった感情を掻き立てるイメージのリスト（wiki）でしかない。</p>
@@ -607,7 +568,7 @@ html.js figure.rec .frame.in { opacity: 1; transform: none; }
     <div class="ch-mark" aria-hidden="true">Ⅱ</div>
     <div class="prose">
       <div class="tgroup">
-        <p>まず私たちが立ち返るべきは、リミナルスペースが「ネットホラー」のひとつとして生成、構築され、流通している、という事実である。そもそも、ネットミームとしてのリミナルスペースの起源が、ネット掲示板に投稿された「ヤバい画像（cursed images）」「落ち着けない画像（unsettling images）」だったのは、そこに映っているものがまぎれもなく「死体としての空間」であり、多くの人々が直感的、無意識的にその死臭を嗅ぎ取ったからなのだ<sup class="fnref" id="fnref-3"><a href="#fn-3" role="doc-noteref" aria-label="註3へ">（3）</a></sup>。</p>
+        <p>まず私たちが立ち返るべきは、リミナルスペースが「ネットホラー」のひとつとして生成、構築され、流通している、という事実である。そもそも、ネットミームとしてのリミナルスペースの起源が、ネット掲示板に投稿された「ヤバい画像（cursed images）」「落ち着けない画像（unsettling images）」だったのは、そこに映っているものがまぎれもなく「死体としての空間」であり、多くの人々が直感的、無意識的にその死臭を嗅ぎ取ったからなのだ。</p>
         <p>かつてオルタナティブ・スペースと呼ばれた空間に投影されていた、あらゆるヴィジョンや可能性や期待が、色褪せながら消滅へ向かっていったその果てに、ネクロフィリアとしてのリミナルスペースが現れたのである。</p>
       </div>
       <div class="tgroup">
@@ -654,8 +615,6 @@ html.js figure.rec .frame.in { opacity: 1; transform: none; }
       <span class="h-en">Records</span>
       <span class="h-ja">記録</span>
     </header>
-    <p class="sec-note">※本ページに掲載された写真は、いずれも撮影地を公開していません。</p>
-
     <div class="gallery">
     <figure id="rec-05" class="rec">
       <div class="frame"><img src="assets/img/navi.jpg" width="1800" height="1012" alt="カーナビゲーションの画面。緑色の経路が誰もいない道路の先へ伸びている。" loading="lazy" decoding="async"></div>
@@ -694,31 +653,6 @@ html.js figure.rec .frame.in { opacity: 1; transform: none; }
       <figcaption><span class="no">No. 13</span>廊下、深夜。撮影地非公開。</figcaption>
     </figure>
     </div>
-  </section>
-
-  <!-- ================= 註（B3F） ================= -->
-  <section id="notes" class="sec" data-stage="deep">
-    <header class="sec-head">
-      <span class="h-en">Notes</span>
-      <span class="h-ja">註</span>
-    </header>
-    <ol class="notes">
-      <li class="note" id="fn-1" data-n="1" role="doc-footnote">
-        <p>20世紀以降の事例に限定するとしても、国内外で生まれた「オルタナティブ・スペース」についての統一的、包括的な定義は存在していない。したがって、本テキストにおけるオルタナティブ・スペースとは一体どのようなものを指しているのか、不明瞭に感じる読者は多いだろう。しかし一方で、そのような統一的、包括的な定義を与えようとすることが、個々のオルタナティブ・スペースが持つ固有の文脈を覆い隠してしまうこともある。</p>
-        <p>例えば、戦後日本美術史における「日本初のオルタナティブ・スペース」は「佐賀町エキジビット・スペース」(1983~2000年)であるとされている。開設者であり主宰であった小池一子によれば、ニューヨークのPS1設立に大きな示唆を受け、その命名やコンセプトメイクに至るまで、当時の「グローバル・スタンダードを第一義として」いたという。このようなストーリーは、1980年代から国内で進行した「ポストモダン化」によって国外へと開かれてゆくアートシーン、といったお決まりの教科書的歴史観に合致するものだろう。</p>
-        <p>しかし、小池一子といえばまず何よりも、1980年に田中一光とともに西友のプライベートブランド「無印良品」を立ち上げたセゾングループの伝説的プロデューサーであり、その背景には、学生運動に挫折した堤清二によって作られた新たな都市型百貨店（パルコ）の登場や、民間企業主導の消費と文化による「街づくり」（西武劇場、渋谷公園通り）といった、極めてドメスティックな戦後日本社会史、経済・産業史が横たわっている。</p>
-        <p>堤清二が、グループ理念である「経営共和制」「顧客最優先」を提唱したのが戦後日本美術史の「前衛の終焉」である1968年だったこと、70年代から80年代にかけて「市民産業」「生活総合産業」といったスローガンのもと、アート、ファッション、デザイン、広告、音楽、映画といったあらゆる芸術領域を、多角化した百貨店経営に取り込んでいったこと、そしてバブル経済崩壊後、それらが解体されていったことなどは、すべて「日本初のオルタナティブ・スペース」と無関係ではないはずである。</p>
-        <p>美術史研究であれ美術批評であれ、今のところ、このような二つの文脈を統合する言説は確立されておらず、一方を語ればもう一方は背後に退く、というジレンマを解消し得ていない。これについては別の場所で詳しく論じるつもりであるが、本テキストおよび本展で使用されるオルタナティブ・スペースという語は、以上のような批評的関心に基づいて用いられている。</p>
-      </li>
-      <li class="note" id="fn-2" data-n="2" role="doc-footnote">
-        <p>たとえば、ALT236『リミナルスペース　新しい恐怖の美学』（フィルムアート社、2025年）など。</p>
-      </li>
-      <li class="note" id="fn-3" data-n="3" role="doc-footnote">
-        <p>妖怪研究で知られる文化人類学者の廣田龍平は、リミナルスペースがネットミームになるきっかけとなった動画『The Backrooms(Found Footage)』(2022年1月7日投稿)について、現代のネットホラーを象徴する３つの要素「ファウンドフッテージ、アナログホラー、モキュメンタリー」が含まれているとして、そのルーツのひとつに、2003年10月26日未明に２ちゃんねるの「オカルト板」にスレッドが立てられた『これって何？』を挙げている。一般的にリミナルスペースの起源として挙げられる2010年代の画像系SNSや4ch、「SCP財団」などではなく、2000年代日本のネットコンテンツ（ネット怪談）からの連続性を見出そうとする廣田の分析は示唆に富んでいる。</p>
-        <p>実際、2004年に公開されたフリーゲーム『ゆめにっき』など、リミナルスペース的なモチーフを扱った高度なクリエイションは、2000年代日本のネットカルチャーのなかで盛んに行われていた。このことは、廣田もたびたび参照するレフ・マノヴィッチのよく知られたテーゼ「ニューメディアにおいては、ナラティブよりデータベースが優先される」情報環境のなかでの創造行為が、すでに2000年代の日本のネットカルチャーにおいて、成熟の域に達していたことを示している。そして2010年代以降、より極端に「データベースドリブン」なコンテンツ、ネットミームがグローバルに拡散していったというプロセスが見て取れる。</p>
-        <p>だとすれば、現在の私たちは、マノヴィッチのテーゼをなぞるように現実を分析するのではなく、デジタルデバイスとソーシャルメディアが世界中に浸透したことによって新たに起こっている、「ナラティブ」リテラシーと「データベース」リテラシーの乖離、つまり、特定のジャンルのデータベース構築に参画できる者たちと、そこから生成されるナラティブしか受容することができない者たちの間に拡がる「格差」について考える必要があるだろう。</p>
-      </li>
-    </ol>
   </section>
 
   <!-- ================= ボタンの間（B3F） ================= -->
@@ -819,31 +753,54 @@ html.js figure.rec .frame.in { opacity: 1; transform: none; }
     frames.forEach(function (f) { f.classList.add('in'); });
   }
 
-  /* ---- 註のハイライト ---- */
-  document.addEventListener('click', function (e) {
-    var a = e.target.closest ? e.target.closest('a[href^="#fn-"]') : null;
-    if (!a) return;
-    var note = document.querySelector(a.getAttribute('href'));
-    if (!note) return;
-    note.classList.add('lit');
-    setTimeout(function () { note.classList.remove('lit'); }, 2400);
-  });
-
-  /* ---- 3D廊下: 視線のパララックス ---- */
+  /* ---- 3D廊下: 視線のパララックス（PC=カーソル / モバイル=ジャイロ） ---- */
   var space = document.getElementById('corridor-space');
-  if (space && !reduced && window.matchMedia('(pointer: fine)').matches) {
-    var tx = 0, ty = 0, px = 0, py = 0, raf = false;
-    window.addEventListener('mousemove', function (e) {
-      tx = e.clientX / window.innerWidth - 0.5;
-      ty = e.clientY / window.innerHeight - 0.5;
-      if (!raf) { raf = true; requestAnimationFrame(sway); }
-    });
-    function sway() {
+  if (space && !reduced) {
+    var tx = 0, ty = 0, px = 0, py = 0, running = false;
+    function step() {
       px += (tx - px) * 0.06;
       py += (ty - py) * 0.06;
       space.style.transform = 'rotateY(' + (px * 4).toFixed(3) + 'deg) rotateX(' + (-py * 2.5).toFixed(3) + 'deg)';
-      if (Math.abs(px - tx) + Math.abs(py - ty) > 0.001) requestAnimationFrame(sway);
-      else raf = false;
+      if (Math.abs(px - tx) + Math.abs(py - ty) > 0.0008) requestAnimationFrame(step);
+      else running = false;
+    }
+    function nudge() { if (!running) { running = true; requestAnimationFrame(step); } }
+
+    if (window.matchMedia('(pointer: fine)').matches) {
+      window.addEventListener('mousemove', function (e) {
+        tx = e.clientX / window.innerWidth - 0.5;
+        ty = e.clientY / window.innerHeight - 0.5;
+        nudge();
+      });
+    }
+
+    /* 端末の傾き = 視線。持ち方を基準にし、ゆっくり基準を追従させる */
+    var base = null;
+    function onTilt(e) {
+      if (e.gamma == null || e.beta == null) return;
+      var a = (screen.orientation && screen.orientation.angle) || window.orientation || 0;
+      var x, y;
+      if (a === 90) { x = e.beta; y = -e.gamma; }
+      else if (a === -90 || a === 270) { x = -e.beta; y = e.gamma; }
+      else { x = e.gamma; y = e.beta; }
+      if (!base) base = { x: x, y: y };
+      base.x += (x - base.x) * 0.005;
+      base.y += (y - base.y) * 0.005;
+      tx = Math.max(-0.5, Math.min(0.5, (x - base.x) / 30));
+      ty = Math.max(-0.5, Math.min(0.5, (y - base.y) / 30));
+      nudge();
+    }
+    function armTilt() { window.addEventListener('deviceorientation', onTilt); }
+    if (typeof DeviceOrientationEvent !== 'undefined') {
+      if (typeof DeviceOrientationEvent.requestPermission === 'function') {
+        window.addEventListener('touchend', function () {
+          DeviceOrientationEvent.requestPermission().then(function (r) {
+            if (r === 'granted') armTilt();
+          }).catch(function () {});
+        }, { once: true });
+      } else {
+        armTilt();
+      }
     }
   }
 
