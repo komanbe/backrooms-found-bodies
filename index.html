@@ -132,12 +132,13 @@ img { max-width: 100%; height: auto; display: block; }
   .hero h1 { animation: none; }
 }
 .hero h1 {
-  font-family: var(--gothic); font-weight: 200;
-  font-size: clamp(14px, 1.6vw, 19px);
-  letter-spacing: .24em;
+  font-family: var(--latin); font-weight: 400;
+  font-size: clamp(17px, 1.9vw, 23px);
+  letter-spacing: .14em;
   line-height: 1.6;
   white-space: nowrap;
 }
+.hero h1 .paren { font-style: italic; letter-spacing: .1em; }
 
 /* ---------------- 本文（ステートメント） ---------------- */
 .chapter { padding: min(10vh, 96px) clamp(20px, 5vw, 48px); }
@@ -204,7 +205,6 @@ figure.rec img {
 .gallery figure.rec + figure.rec { margin-top: clamp(12px, 1.8vw, 24px); }
 .gallery figure.rec .frame { width: 100%; display: block; }
 .gallery figure.rec img { width: 100%; height: auto; }
-.gallery figure.rec.tall img { max-height: 100svh; object-fit: cover; }
 
 /* ---------------- セクション見出し ---------------- */
 .sec { padding: min(11vh, 104px) clamp(20px, 5vw, 48px); }
@@ -263,7 +263,7 @@ figure.rec img {
     <div class="hero-photo" aria-hidden="true">
       <div class="par" id="hero-par"><div class="img"></div></div>
     </div>
-    <h1>Backrooms(Found Bodies)</h1>
+    <h1>Backrooms<span class="paren">( Found Bodies )</span></h1>
   </section>
 
   <!-- ================= ステートメント Ⅰ（GF） ================= -->
@@ -339,21 +339,18 @@ figure.rec img {
   <section id="record" class="sec">
     <div class="gallery">
     <figure id="rec-01" class="rec">
-      <div class="frame"><img src="assets/img/amusement.jpg" width="1800" height="1012" alt="閉鎖された遊技場。AMUSEMENTのサインの下、立入禁止のテープが床に伸びている。" loading="lazy" decoding="async"></div>
-    </figure>
-    <figure id="rec-02" class="rec tall">
       <div class="frame"><img src="assets/img/corridor-yellow.jpg" width="1350" height="1800" alt="黄色い光に染まった短い廊下。突き当たりの壁が光っている。" loading="lazy" decoding="async"></div>
     </figure>
-    <figure id="rec-03" class="rec">
+    <figure id="rec-02" class="rec">
       <div class="frame"><img src="assets/img/navi.jpg" width="1800" height="1012" alt="カーナビゲーションの画面。緑色の経路が誰もいない道路の先へ伸びている。" loading="lazy" decoding="async"></div>
     </figure>
-    <figure id="rec-04" class="rec">
+    <figure id="rec-03" class="rec">
       <div class="frame"><img src="assets/img/concrete.jpg" width="1800" height="1350" alt="内装が撤去されたコンクリートの躯体。柱と梁だけが蛍光灯に照らされている。" loading="lazy" decoding="async"></div>
     </figure>
-    <figure id="rec-05" class="rec">
+    <figure id="rec-04" class="rec">
       <div class="frame"><img src="assets/img/lobby-dark.jpg" width="1800" height="1012" alt="消灯後のロビー。かすかな明かりの奥に受付台が見える。" loading="lazy" decoding="async"></div>
     </figure>
-    <figure id="rec-06" class="rec">
+    <figure id="rec-05" class="rec">
       <div class="frame"><img src="assets/img/corridor-blur.jpg" width="1800" height="1012" alt="ぶれた深夜の廊下。裸電球の白い光だけが並んで写っている。" loading="lazy" decoding="async"></div>
     </figure>
     </div>
