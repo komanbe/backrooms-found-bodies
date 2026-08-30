@@ -14,7 +14,7 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3E%3Crect%20width='64'%20height='64'%20fill='%23101012'/%3E%3Crect%20x='23'%20y='15'%20width='18'%20height='36'%20fill='none'%20stroke='%23C9A227'%20stroke-width='2.5'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Zen+Old+Mincho:wght@400;500;900&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Zen+Old+Mincho:wght@400;500;900&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Noto+Sans+JP:wght@200;300;400;500&display=swap" rel="stylesheet">
 <script>document.documentElement.classList.add('js');</script>
 <style>
 /* ================================================================
@@ -25,23 +25,17 @@
   --serif: "Zen Old Mincho", "Hiragino Mincho ProN", "Yu Mincho", serif;
   --latin: "EB Garamond", Georgia, serif;
   --gothic: "Noto Sans JP", "Hiragino Kaku Gothic ProN", sans-serif;
+  --bg: #F4F2EE;
+  --ink: #1C1C1A;
+  --sub: #6d6a63;
+  --accent: #6E5602;
+  --rule: rgba(28, 28, 26, .28);
   --fs-body: 17.5px;
   --measure: 36em;          /* 全角36字前後 */
-  --dur-stage: .9s;
 }
 @media (max-width: 640px) {
   :root { --fs-body: 16px; }
 }
-
-/* ---- 深度ごとのパレット ---- */
-[data-stage="ground"] { --bg:#F4F2EE; --ink:#1C1C1A; --sub:#6d6a63; --accent:#6E5602; --rule:rgba(28,28,26,.28); }
-[data-stage="b1"]     { --bg:#DFDBD3; --ink:#1C1C1A; --sub:#66635c; --accent:#6E5602; --rule:rgba(28,28,26,.28); }
-[data-stage="b2"]     { --bg:#34322E; --ink:#EDEAE2; --sub:#bcb8ae; --accent:#D4AC2B; --rule:rgba(237,234,226,.32); }
-[data-stage="deep"]   { --bg:#101012; --ink:#E4E1DA; --sub:#aaa69e; --accent:#D4AC2B; --rule:rgba(228,225,218,.28); }
-body[data-stage="ground"] { --bg:#F4F2EE; --ink:#1C1C1A; --sub:#6d6a63; --accent:#6E5602; --rule:rgba(28,28,26,.28); }
-body[data-stage="b1"]     { --bg:#DFDBD3; --ink:#1C1C1A; --sub:#66635c; --accent:#6E5602; --rule:rgba(28,28,26,.28); }
-body[data-stage="b2"]     { --bg:#34322E; --ink:#EDEAE2; --sub:#bcb8ae; --accent:#D4AC2B; --rule:rgba(237,234,226,.32); }
-body[data-stage="deep"]   { --bg:#101012; --ink:#E4E1DA; --sub:#aaa69e; --accent:#D4AC2B; --rule:rgba(228,225,218,.28); }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 html { scroll-behavior: smooth; }
@@ -53,17 +47,10 @@ body {
   background: var(--bg);
   color: var(--ink);
   overflow-x: clip;
-  transition: background-color var(--dur-stage) ease;
 }
-@media (prefers-reduced-motion: reduce) { body { transition: none; } }
-
-/* 各セクションは自前の bg/色 を持つ（JS無効時のフォールバック）。
-   JS有効時は bg を透過させ、body の背景遷移に委ねる。 */
-[data-stage] { background: var(--bg); color: var(--ink); }
-html.js body [data-stage] { background: transparent; }
 
 /* ---------------- 背景の揺らぎ（蛍光灯の不安定な光） ---------------- */
-body::before, body::after {
+body::before {
   content: ""; position: fixed;
   pointer-events: none; z-index: -1;
 }
@@ -80,19 +67,8 @@ body::before {
   50%  { transform: translate3d(2%, 3%, 0) scale(1.06); }
   100% { transform: translate3d(4%, -3%, 0) scale(1.02); }
 }
-body::after {
-  inset: 0;
-  background: #000; opacity: 0;
-  animation: ambient-flicker 59s linear infinite;
-}
-@keyframes ambient-flicker {
-  0%, 93%, 94.4%, 100% { opacity: 0; }
-  93.3% { opacity: .05; }
-  93.7% { opacity: .015; }
-  94.1% { opacity: .04; }
-}
 @media (prefers-reduced-motion: reduce) {
-  body::before, body::after { display: none; }
+  body::before { display: none; }
 }
 
 a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: .28em; }
@@ -106,29 +82,6 @@ img { max-width: 100%; height: auto; display: block; }
   background: #101012; color: #F4F2EE;
 }
 .skip:focus { left: 0; }
-
-/* ---------------- 固定ヘッダー ---------------- */
-.site-head {
-  position: fixed; inset: 0 0 auto 0; z-index: 100;
-  display: flex; align-items: center; justify-content: space-between; gap: 1em;
-  padding: 12px clamp(16px, 3vw, 32px);
-  font-family: var(--gothic); font-weight: 300; font-size: 11px;
-  letter-spacing: .14em;
-  color: var(--ink);
-  background: color-mix(in srgb, var(--bg) 78%, transparent);
-  backdrop-filter: blur(7px);
-  -webkit-backdrop-filter: blur(7px);
-  transition: background-color var(--dur-stage) ease, color var(--dur-stage) ease;
-}
-html:not(.js) .site-head { background: transparent; }
-.site-head .brand { font-family: var(--latin); font-weight: 500; font-size: 14.5px; letter-spacing: .1em; color: inherit; text-decoration: none; white-space: nowrap; }
-.site-head nav { display: flex; gap: clamp(.9em, 2.4vw, 1.8em); }
-.site-head nav a { color: inherit; text-decoration: none; }
-.site-head nav a:hover { color: var(--accent); }
-@media (max-width: 560px) {
-  .site-head { justify-content: center; }
-  .site-head .brand { display: none; }
-}
 
 /* ---------------- 点灯フリッカー（初回のみ） ---------------- */
 .flicker-overlay {
@@ -152,9 +105,9 @@ html:not(.js) .site-head { background: transparent; }
 /* ---------------- ヒーロー ---------------- */
 .hero {
   min-height: 100svh;
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  text-align: center;
-  padding: 18vh clamp(20px, 5vw, 48px) 10vh;
+  display: flex; flex-direction: column; align-items: flex-start; justify-content: center;
+  text-align: left;
+  padding: 18vh clamp(24px, 7vw, 96px) 10vh;
   position: relative;
   isolation: isolate;
   overflow: hidden;
@@ -165,25 +118,13 @@ html:not(.js) .site-head { background: transparent; }
 .hero-photo .img {
   position: absolute; inset: -5%;
   background: url("assets/img/mall-chevron-1.jpg") center 62% / cover no-repeat;
-  animation: hero-zoom 67s ease-in-out infinite alternate;
-  will-change: transform;
-}
-@keyframes hero-zoom {
-  from { transform: scale(1); }
-  to   { transform: scale(1.07); }
 }
 /* タイトルを読ませるための薄い靄と、上下の溶け込み */
 .hero-photo::after {
   content: ""; position: absolute; inset: 0;
   background:
-    radial-gradient(52vw 44vh at 50% 44%, rgba(244,242,238,.78), rgba(244,242,238,.34) 58%, rgba(244,242,238,.08)),
+    radial-gradient(46vw 36vh at 26% 48%, rgba(244,242,238,.8), rgba(244,242,238,.36) 58%, rgba(244,242,238,.08)),
     linear-gradient(180deg, rgba(244,242,238,.8), rgba(244,242,238,.1) 26% 72%, rgba(244,242,238,.95));
-  animation: haze-flicker 17s linear infinite;
-}
-@keyframes haze-flicker {
-  0%, 74%, 76.8%, 100% { opacity: 1; }
-  74.8% { opacity: .82; }
-  75.9% { opacity: .93; }
 }
 
 /* 切れかけの蛍光灯のように、タイトルが時折瞬く */
@@ -194,38 +135,16 @@ html:not(.js) .site-head { background: transparent; }
   92.4% { opacity: .85; }
   92.9% { opacity: .5; }
 }
-.hero h1 .paren { animation: paren-flicker 13s linear infinite; }
-@keyframes paren-flicker {
-  0%, 87.8%, 89.6%, 100% { opacity: 1; }
-  88.3% { opacity: .25; }
-  89.1% { opacity: .7; }
-}
 @media (prefers-reduced-motion: reduce) {
-  .hero h1, .hero h1 .paren, .hero-photo .img, .hero-photo::after { animation: none; }
+  .hero h1 { animation: none; }
 }
 .hero h1 {
-  font-family: var(--latin); font-weight: 500;
-  font-size: clamp(2.9rem, 10vw, 6.8rem);
-  letter-spacing: .04em; line-height: 1.04;
+  font-family: var(--gothic); font-weight: 200;
+  font-size: clamp(14px, 1.6vw, 19px);
+  letter-spacing: .24em;
+  line-height: 1.6;
+  white-space: nowrap;
 }
-.hero h1 .paren {
-  display: block;
-  font-style: italic; font-weight: 400;
-  font-size: .56em; letter-spacing: .09em;
-  margin-top: .3em;
-  color: var(--sub);
-}
-.hero .cue {
-  position: absolute; bottom: 4.5vh; left: 50%;
-  width: 1px; height: 62px;
-  background: var(--ink); opacity: .45;
-  animation: cue-drip 3.4s ease-in-out infinite;
-}
-@keyframes cue-drip {
-  0%, 100% { transform: scaleY(.35); transform-origin: top; opacity: .2; }
-  50% { transform: scaleY(1); opacity: .5; }
-}
-@media (prefers-reduced-motion: reduce) { .hero .cue { animation: none; } }
 
 /* ---------------- 本文（ステートメント） ---------------- */
 .chapter { padding: min(10vh, 96px) clamp(20px, 5vw, 48px); }
@@ -242,7 +161,6 @@ html:not(.js) .site-head { background: transparent; }
 }
 .prose p { text-indent: 1em; }
 .tgroup + .tgroup { margin-top: 2.6em; }
-[data-stage="b2"] .prose, [data-stage="deep"] .prose { font-weight: 500; }
 
 .fnref { line-height: 0; }
 .fnref a {
@@ -286,34 +204,14 @@ figure.rec .frame {
 figure.rec img {
   max-width: 100%; width: auto; height: auto;
   max-height: 72vh;
-  filter: saturate(.92);
 }
-html.js figure.rec .frame { opacity: 0; transform: translateY(14px); transition: opacity 1.2s ease, transform 1.2s ease; }
-html.js figure.rec .frame.in { opacity: 1; transform: none; }
-@media (prefers-reduced-motion: reduce) {
-  html.js figure.rec .frame { opacity: 1; transform: none; transition: none; }
-}
-/* 記録セクション: 目録グリッド */
-.gallery {
-  width: 100vw; margin: 6vh 0 0 calc(50% - 50vw);
-  display: grid; grid-template-columns: 1fr 1fr;
-  gap: clamp(12px, 1.8vw, 24px);
-}
+/* 記録セクション: 1枚ずつ、画面幅いっぱい */
+.gallery { width: 100vw; margin: 0 0 0 calc(50% - 50vw); }
 .gallery figure.rec { margin-block: 0; }
+.gallery figure.rec + figure.rec { margin-top: clamp(12px, 1.8vw, 24px); }
 .gallery figure.rec .frame { width: 100%; display: block; }
-.gallery figure.rec img {
-  width: 100%; max-height: none;
-  aspect-ratio: 3 / 2; object-fit: cover;
-}
-.gallery figure.rec.tall { grid-row: span 2; }
-.gallery figure.rec.tall .frame, .gallery figure.rec.tall img { height: 100%; }
-.gallery figure.rec.tall img { aspect-ratio: auto; object-fit: cover; }
-.gallery figure.rec.wide { grid-column: 1 / -1; }
-.gallery figure.rec.wide img { aspect-ratio: 5 / 2; }
-@media (max-width: 820px) {
-  .gallery { grid-template-columns: 1fr; }
-  .gallery figure.rec.wide img { aspect-ratio: 3 / 2; }
-}
+.gallery figure.rec img { width: 100%; height: auto; }
+.gallery figure.rec.tall img { max-height: 100svh; object-fit: cover; }
 
 /* ---------------- セクション見出し ---------------- */
 .sec { padding: min(11vh, 104px) clamp(20px, 5vw, 48px); }
@@ -361,32 +259,22 @@ html.js figure.rec .frame.in { opacity: 1; transform: none; }
 .site-foot .copyright { margin-top: 4em; opacity: .85; }
 </style>
 </head>
-<body data-stage="ground">
+<body>
 <a class="skip" href="#statement">本文へ進む</a>
 <div class="flicker-overlay" aria-hidden="true"></div>
-
-<header class="site-head">
-  <a class="brand" href="#top">Backrooms(Found Bodies)</a>
-  <nav aria-label="ページ内">
-    <a href="#statement">ステートメント</a>
-    <a href="#record">記録</a>
-    <a href="#info">概要</a>
-  </nav>
-</header>
 
 <main id="top">
 
   <!-- ================= 地上 ================= -->
-  <section class="hero" data-stage="ground">
+  <section class="hero">
     <div class="hero-photo" aria-hidden="true">
       <div class="par" id="hero-par"><div class="img"></div></div>
     </div>
-    <h1>Backrooms<span class="paren">( Found Bodies )</span></h1>
-    <span class="cue" aria-hidden="true"></span>
+    <h1>Backrooms(Found Bodies)</h1>
   </section>
 
   <!-- ================= ステートメント Ⅰ（GF） ================= -->
-  <section id="statement" class="chapter" data-stage="ground" aria-label="ステートメント 一">
+  <section id="statement" class="chapter" aria-label="ステートメント 一">
     <div class="prose">
       <div class="tgroup">
         <p>リミナルスペースとは、かつて「オルタナティブ・スペース」と呼ばれていたものの「死体」である<sup class="fnref" id="fnref-1"><a href="#ann-1" aria-label="注釈1へ">（1）</a></sup>。</p>
@@ -406,7 +294,7 @@ html.js figure.rec .frame.in { opacity: 1; transform: none; }
   </section>
 
   <!-- ================= ステートメント Ⅱ（B1F） ================= -->
-  <section id="statement-2" class="chapter" data-stage="b1" aria-label="ステートメント 二">
+  <section id="statement-2" class="chapter" aria-label="ステートメント 二">
     <div class="prose">
       <div class="tgroup">
         <p>まず私たちが立ち返るべきは、リミナルスペースが「ネットホラー」のひとつとして生成、構築され、流通している、という事実である。そもそも、ネットミームとしてのリミナルスペースの起源が、ネット掲示板に投稿された「ヤバい画像（cursed images）」「落ち着けない画像（unsettling images）」だったのは、そこに映っているものがまぎれもなく「死体としての空間」であり、多くの人々が直感的、無意識的にその死臭を嗅ぎ取ったからなのだ<sup class="fnref" id="fnref-3"><a href="#ann-3" aria-label="注釈3へ">（3）</a></sup>。</p>
@@ -420,7 +308,7 @@ html.js figure.rec .frame.in { opacity: 1; transform: none; }
   </section>
 
   <!-- ================= ステートメント Ⅲ（B2F） ================= -->
-  <section id="statement-3" class="chapter" data-stage="b2" aria-label="ステートメント 三">
+  <section id="statement-3" class="chapter" aria-label="ステートメント 三">
     <div class="prose">
       <div class="tgroup">
         <p>リミナルスペースの発生に先行するのはオルタナティブ・スペースの死であり、その逆ではない。そして、オルタナティブ・スペースの死をめぐる様々な否認は、その「死因」を覆い隠すことからはじまっている。本当は、誰もがその原因を知っているが、語りたくないのだ。</p>
@@ -455,11 +343,7 @@ html.js figure.rec .frame.in { opacity: 1; transform: none; }
   </section>
 
   <!-- ================= 最深部：記録（B3F） ================= -->
-  <section id="record" class="sec" data-stage="deep">
-    <header class="sec-head">
-      <span class="h-en">Records</span>
-      <span class="h-ja">記録</span>
-    </header>
+  <section id="record" class="sec">
     <div class="gallery">
     <figure id="rec-01" class="rec">
       <div class="frame"><img src="assets/img/amusement.jpg" width="1800" height="1012" alt="閉鎖された遊技場。AMUSEMENTのサインの下、立入禁止のテープが床に伸びている。" loading="lazy" decoding="async"></div>
@@ -470,20 +354,20 @@ html.js figure.rec .frame.in { opacity: 1; transform: none; }
     <figure id="rec-03" class="rec">
       <div class="frame"><img src="assets/img/navi.jpg" width="1800" height="1012" alt="カーナビゲーションの画面。緑色の経路が誰もいない道路の先へ伸びている。" loading="lazy" decoding="async"></div>
     </figure>
-    <figure id="rec-04" class="rec wide">
+    <figure id="rec-04" class="rec">
       <div class="frame"><img src="assets/img/concrete.jpg" width="1800" height="1350" alt="内装が撤去されたコンクリートの躯体。柱と梁だけが蛍光灯に照らされている。" loading="lazy" decoding="async"></div>
     </figure>
-    <figure id="rec-05" class="rec wide">
+    <figure id="rec-05" class="rec">
       <div class="frame"><img src="assets/img/lobby-dark.jpg" width="1800" height="1012" alt="消灯後のロビー。かすかな明かりの奥に受付台が見える。" loading="lazy" decoding="async"></div>
     </figure>
-    <figure id="rec-06" class="rec wide">
+    <figure id="rec-06" class="rec">
       <div class="frame"><img src="assets/img/corridor-blur.jpg" width="1800" height="1012" alt="ぶれた深夜の廊下。裸電球の白い光だけが並んで写っている。" loading="lazy" decoding="async"></div>
     </figure>
     </div>
   </section>
 
   <!-- ================= 開催概要（B3F） ================= -->
-  <section id="info" class="sec" data-stage="deep">
+  <section id="info" class="sec">
     <header class="sec-head">
       <span class="h-en">Information</span>
       <span class="h-ja">開催概要</span>
@@ -507,7 +391,7 @@ html.js figure.rec .frame.in { opacity: 1; transform: none; }
 
 </main>
 
-<footer class="site-foot" data-stage="deep">
+<footer class="site-foot">
   <p class="ft-title">Backrooms(Found Bodies)</p>
   <p class="copyright">Backrooms(Found Bodies), 2026</p>
 </footer>
@@ -528,43 +412,6 @@ html.js figure.rec .frame.in { opacity: 1; transform: none; }
   if (overlay) {
     overlay.addEventListener('animationend', function () { overlay.remove(); });
     if (reduced || lit) overlay.remove();
-  }
-
-  /* ---- 深度（背景ステージ）切替 ---- */
-  var scopes = Array.prototype.slice.call(document.querySelectorAll('[data-stage]'))
-    .filter(function (el) { return el !== document.body; });
-  var ticking = false;
-  function updateStage() {
-    ticking = false;
-    var mid = window.scrollY + window.innerHeight * 0.55;
-    var stage = 'ground';
-    for (var i = 0; i < scopes.length; i++) {
-      var el = scopes[i];
-      var top = el.getBoundingClientRect().top + window.scrollY;
-      if (top <= mid) stage = el.getAttribute('data-stage');
-    }
-    if (document.body.getAttribute('data-stage') !== stage) {
-      document.body.setAttribute('data-stage', stage);
-    }
-  }
-  function onScroll() {
-    if (!ticking) { ticking = true; requestAnimationFrame(updateStage); }
-  }
-  window.addEventListener('scroll', onScroll, { passive: true });
-  window.addEventListener('resize', onScroll);
-  updateStage();
-
-  /* ---- 写真のフェードイン ---- */
-  var frames = document.querySelectorAll('figure.rec .frame');
-  if ('IntersectionObserver' in window && !reduced) {
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (en) {
-        if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); }
-      });
-    }, { rootMargin: '0px 0px -8% 0px' });
-    frames.forEach(function (f) { io.observe(f); });
-  } else {
-    frames.forEach(function (f) { f.classList.add('in'); });
   }
 
   /* ---- 3D廊下: 視線のパララックス（PC=カーソル / モバイル=ジャイロ） ---- */
