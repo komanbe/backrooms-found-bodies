@@ -114,9 +114,8 @@ img { max-width: 100%; height: auto; display: block; }
 }
 /* ---- ファーストビュー: 無人のフロア ---- */
 .hero-photo { position: absolute; inset: 0; z-index: -1; overflow: hidden; }
-.hero-photo .par { position: absolute; inset: 0; will-change: transform; }
 .hero-photo .img {
-  position: absolute; inset: -5%;
+  position: absolute; inset: 0;
   background: url("assets/img/mall-chevron-1.jpg") center 62% / cover no-repeat;
 }
 
@@ -184,7 +183,7 @@ img { max-width: 100%; height: auto; display: block; }
 .signature {
   max-width: var(--measure);
   margin: 4.5em auto 0;
-  font-size: 13px;
+  font-size: 15px;
   letter-spacing: .06em;
   text-align: right;
 }
@@ -204,7 +203,7 @@ figure.rec img {
 .gallery figure.rec { margin-block: 0; }
 .gallery figure.rec + figure.rec { margin-top: clamp(12px, 1.8vw, 24px); }
 .gallery figure.rec .frame { width: 100%; display: block; }
-.gallery figure.rec img { width: 100%; height: auto; }
+.gallery figure.rec img { width: 100%; height: auto; max-height: none; }
 
 /* ---------------- セクション見出し ---------------- */
 .sec { padding: min(11vh, 104px) clamp(20px, 5vw, 48px); }
@@ -260,7 +259,7 @@ figure.rec img {
   <!-- ================= 地上 ================= -->
   <section class="hero">
     <div class="hero-photo" aria-hidden="true">
-      <div class="par" id="hero-par"><div class="img"></div></div>
+      <div class="img"></div>
     </div>
     <h1>Backrooms<span class="paren">( Found Bodies )</span></h1>
   </section>
@@ -401,48 +400,6 @@ figure.rec img {
     if (reduced || lit) overlay.remove();
   }
 
-  /* ---- ファーストビューの視差（モバイル=ジャイロのみ） ---- */
-  var space = document.getElementById('hero-par');
-  if (space && !reduced) {
-    var tx = 0, ty = 0, px = 0, py = 0, running = false;
-    function step() {
-      px += (tx - px) * 0.06;
-      py += (ty - py) * 0.06;
-      space.style.transform = 'translate3d(' + (px * -26).toFixed(2) + 'px, ' + (py * -16).toFixed(2) + 'px, 0)';
-      if (Math.abs(px - tx) + Math.abs(py - ty) > 0.0008) requestAnimationFrame(step);
-      else running = false;
-    }
-    function nudge() { if (!running) { running = true; requestAnimationFrame(step); } }
-
-    /* 端末の傾き = 視線。持ち方を基準にし、ゆっくり基準を追従させる */
-    var base = null;
-    function onTilt(e) {
-      if (e.gamma == null || e.beta == null) return;
-      var a = (screen.orientation && screen.orientation.angle) || window.orientation || 0;
-      var x, y;
-      if (a === 90) { x = e.beta; y = -e.gamma; }
-      else if (a === -90 || a === 270) { x = -e.beta; y = e.gamma; }
-      else { x = e.gamma; y = e.beta; }
-      if (!base) base = { x: x, y: y };
-      base.x += (x - base.x) * 0.005;
-      base.y += (y - base.y) * 0.005;
-      tx = Math.max(-0.5, Math.min(0.5, (x - base.x) / 30));
-      ty = Math.max(-0.5, Math.min(0.5, (y - base.y) / 30));
-      nudge();
-    }
-    function armTilt() { window.addEventListener('deviceorientation', onTilt); }
-    if (typeof DeviceOrientationEvent !== 'undefined') {
-      if (typeof DeviceOrientationEvent.requestPermission === 'function') {
-        window.addEventListener('touchend', function () {
-          DeviceOrientationEvent.requestPermission().then(function (r) {
-            if (r === 'granted') armTilt();
-          }).catch(function () {});
-        }, { once: true });
-      } else {
-        armTilt();
-      }
-    }
-  }
 
 })();
 </script>
