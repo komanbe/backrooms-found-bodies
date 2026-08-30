@@ -15,7 +15,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Zen+Old+Mincho:wght@400;500;900&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Kaisei+Tokumin:wght@800&text=GFB123%E6%9C%80%E6%B7%B1%E9%83%A8&display=swap" rel="stylesheet">
 <script>document.documentElement.classList.add('js');</script>
 <style>
 /* ================================================================
@@ -26,7 +25,6 @@
   --serif: "Zen Old Mincho", "Hiragino Mincho ProN", "Yu Mincho", serif;
   --latin: "EB Garamond", Georgia, serif;
   --gothic: "Noto Sans JP", "Hiragino Kaku Gothic ProN", sans-serif;
-  --depthface: "Kaisei Tokumin", "Zen Old Mincho", serif;
   --fs-body: 17.5px;
   --measure: 36em;          /* 全角36字前後 */
   --dur-stage: .9s;
@@ -132,31 +130,6 @@ html:not(.js) .site-head { background: transparent; }
   .site-head .brand { display: none; }
 }
 
-/* ---------------- 深度表示 ---------------- */
-.depth {
-  position: fixed; right: clamp(10px, 2vw, 24px); bottom: clamp(14px, 3vh, 28px); z-index: 90;
-  display: flex; flex-direction: column; align-items: flex-end; gap: .55em;
-  font-family: var(--depthface); font-weight: 800; font-size: 11px;
-  letter-spacing: .22em; line-height: 1;
-  color: var(--ink);
-  transition: color var(--dur-stage) ease;
-  animation: idle-flicker 47s linear infinite;
-  pointer-events: none;
-}
-.depth span { opacity: .4; transition: opacity .5s ease; }
-body[data-stage="ground"] .depth [data-d="ground"],
-body[data-stage="b1"]     .depth [data-d="b1"],
-body[data-stage="b2"]     .depth [data-d="b2"],
-body[data-stage="deep"]   .depth [data-d="deep"] { opacity: 1; }
-html:not(.js) .depth { display: none; }
-@keyframes idle-flicker {
-  0%, 97.8%, 98.6%, 100% { opacity: 1; }
-  98.2% { opacity: .45; }
-  99% { opacity: .75; }
-}
-@media (prefers-reduced-motion: reduce) { .depth { animation: none; } }
-@media (max-width: 640px) { .depth { display: none; } }
-
 /* ---------------- 点灯フリッカー（初回のみ） ---------------- */
 .flicker-overlay {
   position: fixed; inset: 0; z-index: 300;
@@ -186,85 +159,33 @@ html:not(.js) .depth { display: none; }
   isolation: isolate;
   overflow: hidden;
 }
-/* ---- 3D廊下: 無限に歩き続ける黄色い廊下 ---- */
-.corridor {
-  position: absolute; inset: 0; z-index: -1;
-  --cx: min(37vw, 36vh); --cy: 50vh; --cd: 4200px;
-  perspective: 620px;
-  perspective-origin: 50% 53%;
-  overflow: hidden;
-}
-.corridor .space {
-  position: absolute; inset: 0;
-  transform-style: preserve-3d;
+/* ---- ファーストビュー: 無人のフロア ---- */
+.hero-photo { position: absolute; inset: 0; z-index: -1; overflow: hidden; }
+.hero-photo .par { position: absolute; inset: 0; will-change: transform; }
+.hero-photo .img {
+  position: absolute; inset: -5%;
+  background: url("assets/img/mall-chevron-1.jpg") center 62% / cover no-repeat;
+  animation: hero-zoom 67s ease-in-out infinite alternate;
   will-change: transform;
 }
-.corridor .plane { position: absolute; left: 50%; top: 50%; overflow: hidden; }
-.corridor .tex { position: absolute; }
-
-.corridor .wall {
-  width: var(--cd); height: 108vh;
-  margin: -54vh 0 0 calc(var(--cd) / -2);
+@keyframes hero-zoom {
+  from { transform: scale(1); }
+  to   { transform: scale(1.07); }
 }
-.corridor .wall.left  { transform: translateX(calc(-1 * var(--cx))) rotateY(90deg); }
-.corridor .wall.right { transform: translateX(var(--cx)) rotateY(90deg); }
-.corridor .wall .tex {
-  inset: 0 0 0 -440px;
+/* タイトルを読ませるための薄い靄と、上下の溶け込み */
+.hero-photo::after {
+  content: ""; position: absolute; inset: 0;
   background:
-    linear-gradient(180deg,
-      #c6c5bd 0 2.2%, #f0eee6 2.2% 4.5%, transparent 4.5% 87%,
-      #a8a79f 87% 89%, #737269 89% 100%),
-    repeating-linear-gradient(90deg,
-      #b4b3ab 0 10px,
-      #e9e28c 10px 205px,
-      #b4b3ab 205px 215px,
-      #ded983 215px 430px,
-      #b4b3ab 430px 440px);
-  animation: walk-x 7.33s linear infinite;
-}
-@keyframes walk-x { to { transform: translateX(-440px); } }
-
-.corridor .flat {
-  width: calc(var(--cx) * 2 + 2px); height: var(--cd);
-  margin: calc(var(--cd) / -2) 0 0 calc(-1px - var(--cx));
-}
-.corridor .floor { transform: translateY(var(--cy)) rotateX(90deg); }
-.corridor .ceil  { transform: translateY(calc(-1 * var(--cy))) rotateX(90deg); }
-.corridor .flat .tex { inset: -360px 0 0 0; animation: walk-y 6s linear infinite; }
-.corridor .floor .tex {
-  background:
-    linear-gradient(90deg, transparent 0 40%, rgba(255,255,242,.4) 47% 53%, transparent 60% 100%),
-    repeating-linear-gradient(0deg, #d0cdc3 0 3px, transparent 3px 360px),
-    repeating-linear-gradient(90deg, #d0cdc3 0 3px, transparent 3px 180px),
-    linear-gradient(180deg, #edebe2, #f6f4ed);
-}
-.corridor .ceil .tex {
-  background:
-    linear-gradient(90deg, transparent 0 40%, rgba(255,253,232,.92) 46% 54%, transparent 60% 100%),
-    repeating-linear-gradient(0deg, #d8d5cb 0 3px, transparent 3px 360px),
-    repeating-linear-gradient(90deg, #d8d5cb 0 3px, transparent 3px 25%),
-    linear-gradient(180deg, #f0eee6, #eceae1);
-}
-@keyframes walk-y { to { transform: translateY(360px); } }
-
-.corridor .end {
-  width: calc(var(--cx) * 2 + 60px); height: 112vh;
-  margin: -56vh 0 0 calc(-30px - var(--cx));
-  transform: translateZ(-1600px);
-  background: #f2f0e8;
-}
-.corridor .haze {
-  position: absolute; inset: 0;
-  background:
-    radial-gradient(42vw 46vh at 50% 53%, rgba(246,244,236,.96) 12%, rgba(246,244,236,.55) 55%, transparent 100%),
-    linear-gradient(180deg, rgba(244,242,238,.9), transparent 22% 78%, rgba(244,242,238,.92));
+    radial-gradient(52vw 44vh at 50% 44%, rgba(244,242,238,.78), rgba(244,242,238,.34) 58%, rgba(244,242,238,.08)),
+    linear-gradient(180deg, rgba(244,242,238,.8), rgba(244,242,238,.1) 26% 72%, rgba(244,242,238,.95));
   animation: haze-flicker 17s linear infinite;
 }
 @keyframes haze-flicker {
   0%, 74%, 76.8%, 100% { opacity: 1; }
-  74.8% { opacity: .88; }
-  75.9% { opacity: .95; }
+  74.8% { opacity: .82; }
+  75.9% { opacity: .93; }
 }
+
 /* 切れかけの蛍光灯のように、タイトルが時折瞬く */
 .hero h1 { animation: h1-flicker 9s linear infinite; }
 @keyframes h1-flicker {
@@ -280,13 +201,7 @@ html:not(.js) .depth { display: none; }
   89.1% { opacity: .7; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .hero h1, .hero h1 .paren, .corridor .tex, .corridor .haze { animation: none; }
-}
-.hero .eyebrow {
-  font-family: var(--gothic); font-weight: 300; font-size: 11px;
-  letter-spacing: .5em; text-indent: .5em;
-  color: var(--sub);
-  margin-bottom: 3.2em;
+  .hero h1, .hero h1 .paren, .hero-photo .img, .hero-photo::after { animation: none; }
 }
 .hero h1 {
   font-family: var(--latin); font-weight: 500;
@@ -300,25 +215,6 @@ html:not(.js) .depth { display: none; }
   margin-top: .3em;
   color: var(--sub);
 }
-.hero-cta {
-  margin-top: 3.2em;
-  display: inline-block;
-  font-family: var(--gothic); font-weight: 400;
-  font-size: 12.5px; letter-spacing: .22em; text-indent: .22em;
-  color: var(--ink);
-  border: 1px solid var(--rule);
-  border-radius: 999px;
-  padding: .95em 2.4em;
-  text-decoration: none;
-  transition: border-color .3s ease, color .3s ease;
-}
-.hero-cta:hover { border-color: var(--accent); color: var(--accent); }
-.hero .dates {
-  margin-top: 4.6em;
-  font-size: 14.5px; line-height: 2.3; letter-spacing: .1em;
-}
-.hero .dates .slot { display: block; }
-.hero .dates .part { color: var(--sub); font-size: .82em; margin-right: 1.1em; letter-spacing: .22em; }
 .hero .cue {
   position: absolute; bottom: 4.5vh; left: 50%;
   width: 1px; height: 62px;
@@ -348,20 +244,31 @@ html:not(.js) .depth { display: none; }
 .tgroup + .tgroup { margin-top: 2.6em; }
 [data-stage="b2"] .prose, [data-stage="deep"] .prose { font-weight: 500; }
 
-.ch-mark {
-  font-family: var(--latin); font-weight: 500;
-  font-size: 1.5rem; letter-spacing: .4em; text-indent: .4em;
-  text-align: center;
-  color: var(--sub);
-  margin-bottom: min(9vh, 84px);
-  user-select: none;
+.fnref { line-height: 0; }
+.fnref a {
+  font-size: .68em;
+  font-family: var(--gothic); font-weight: 500;
+  text-decoration: none;
+  padding: 0 .1em;
 }
-.st-label {
-  font-family: var(--gothic); font-weight: 300; font-size: 11px;
-  letter-spacing: .4em; text-indent: .4em;
-  text-align: center; color: var(--sub);
-  margin-bottom: 4.5em;
+.fnref a:hover { text-decoration: underline; }
+.annotations {
+  max-width: 39em;
+  margin: 5em auto 0;
+  padding-top: 2.6em;
+  border-top: 1px solid var(--rule);
+  font-family: var(--gothic); font-weight: 300;
+  font-size: 13.5px; line-height: 1.95; letter-spacing: .02em;
 }
+.annotations .ann { position: relative; padding-left: 2.8em; scroll-margin-top: 90px; }
+.annotations .ann + .ann { margin-top: 2.2em; }
+.annotations .ann::before {
+  content: "（" attr(data-n) "）";
+  position: absolute; left: 0; top: 0;
+  color: var(--accent);
+}
+.annotations p + p { margin-top: .9em; }
+@media (max-width: 640px) { .annotations { font-size: 13px; } }
 .signature {
   max-width: var(--measure);
   margin: 4.5em auto 0;
@@ -381,31 +288,16 @@ figure.rec img {
   max-height: 72vh;
   filter: saturate(.92);
 }
-figure.rec.portrait .frame { width: min(86vw, 480px); }
-figure.rec figcaption {
-  max-width: 880px;
-  margin: 1em auto 0;
-  font-family: var(--gothic); font-weight: 300;
-  font-size: 12px; letter-spacing: .14em; line-height: 1.9;
-  color: var(--sub);
-  text-align: center;
-}
-figure.rec figcaption .no {
-  font-family: var(--latin); font-weight: 500; font-size: 13.5px;
-  letter-spacing: .16em; margin-right: 1.3em;
-}
 html.js figure.rec .frame { opacity: 0; transform: translateY(14px); transition: opacity 1.2s ease, transform 1.2s ease; }
 html.js figure.rec .frame.in { opacity: 1; transform: none; }
 @media (prefers-reduced-motion: reduce) {
   html.js figure.rec .frame { opacity: 1; transform: none; transition: none; }
 }
-.interlude { padding: min(4vh, 36px) clamp(20px, 5vw, 48px); }
-
 /* 記録セクション: 目録グリッド */
 .gallery {
-  max-width: 1160px; margin: 6vh auto 0;
+  width: 100vw; margin: 6vh 0 0 calc(50% - 50vw);
   display: grid; grid-template-columns: 1fr 1fr;
-  gap: clamp(28px, 5vh, 56px) clamp(20px, 3vw, 40px);
+  gap: clamp(12px, 1.8vw, 24px);
 }
 .gallery figure.rec { margin-block: 0; }
 .gallery figure.rec .frame { width: 100%; display: block; }
@@ -413,7 +305,9 @@ html.js figure.rec .frame.in { opacity: 1; transform: none; }
   width: 100%; max-height: none;
   aspect-ratio: 3 / 2; object-fit: cover;
 }
-.gallery figure.rec figcaption { text-align: left; max-width: none; }
+.gallery figure.rec.tall { grid-row: span 2; }
+.gallery figure.rec.tall .frame, .gallery figure.rec.tall img { height: 100%; }
+.gallery figure.rec.tall img { aspect-ratio: auto; object-fit: cover; }
 .gallery figure.rec.wide { grid-column: 1 / -1; }
 .gallery figure.rec.wide img { aspect-ratio: 5 / 2; }
 @media (max-width: 820px) {
@@ -434,24 +328,6 @@ html.js figure.rec .frame.in { opacity: 1; transform: none; }
   font-family: var(--serif); font-weight: 900;
   font-size: 1.55rem; letter-spacing: .3em;
 }
-
-/* ---------------- ボタンの間 ---------------- */
-.button-room { text-align: center; }
-.button-room figure.rec .frame { width: min(90vw, 760px); margin-inline: auto; }
-.nothing-btn {
-  margin-top: 3.4em;
-  font-family: var(--gothic); font-weight: 300;
-  font-size: 12px; letter-spacing: .22em; text-indent: .22em;
-  color: var(--ink);
-  background: none;
-  border: 1px solid var(--rule);
-  border-radius: 999px;
-  padding: 1em 2.4em;
-  cursor: pointer;
-  transition: border-color .3s ease;
-}
-.nothing-btn:hover { border-color: var(--accent); }
-.nothing-btn:active { transform: translateY(1px); }
 
 /* ---------------- 開催概要 ---------------- */
 .ledger {
@@ -498,47 +374,25 @@ html.js figure.rec .frame.in { opacity: 1; transform: none; }
   </nav>
 </header>
 
-<div class="depth" aria-hidden="true">
-  <span data-d="ground">GF</span>
-  <span data-d="b1">B1F</span>
-  <span data-d="b2">B2F</span>
-  <span data-d="deep">B3F</span>
-</div>
-
 <main id="top">
 
   <!-- ================= 地上 ================= -->
   <section class="hero" data-stage="ground">
-    <div class="corridor" aria-hidden="true">
-      <div class="space" id="corridor-space">
-        <div class="plane wall left"><div class="tex"></div></div>
-        <div class="plane wall right"><div class="tex"></div></div>
-        <div class="plane flat floor"><div class="tex"></div></div>
-        <div class="plane flat ceil"><div class="tex"></div></div>
-        <div class="plane end"></div>
-      </div>
-      <div class="haze"></div>
+    <div class="hero-photo" aria-hidden="true">
+      <div class="par" id="hero-par"><div class="img"></div></div>
     </div>
-    <p class="eyebrow">展覧会</p>
     <h1>Backrooms<span class="paren">( Found Bodies )</span></h1>
-    <p class="dates">
-      <span class="slot"><span class="part">第1部</span>2026年11月　都内某所</span>
-      <span class="slot"><span class="part">第2部</span>2026年12月　関西某所</span>
-    </p>
-    <a class="hero-cta" href="#info">開催概要へ</a>
     <span class="cue" aria-hidden="true"></span>
   </section>
 
   <!-- ================= ステートメント Ⅰ（GF） ================= -->
   <section id="statement" class="chapter" data-stage="ground" aria-label="ステートメント 一">
-    <p class="st-label">ステートメント</p>
-    <div class="ch-mark" aria-hidden="true">Ⅰ</div>
     <div class="prose">
       <div class="tgroup">
-        <p>リミナルスペースとは、かつて「オルタナティブ・スペース」と呼ばれていたものの「死体」である。</p>
+        <p>リミナルスペースとは、かつて「オルタナティブ・スペース」と呼ばれていたものの「死体」である<sup class="fnref" id="fnref-1"><a href="#ann-1" aria-label="注釈1へ">（1）</a></sup>。</p>
       </div>
       <div class="tgroup">
-        <p>もちろん、ネットミームとしてのリミナルスペースは、決してそのように定義されてこなかった。インターネット上のリミナルスペースに「新たな美学」を見出そうとする人々は概ね、それらを現代における最新の「不気味なもの」、つまり新しい「外部」や「他者」として受け取り、ネットカルチャー発の創造的ムーブメントに違いないと言祝いでいる。</p>
+        <p>もちろん、ネットミームとしてのリミナルスペースは、決してそのように定義されてこなかった。インターネット上のリミナルスペースに「新たな美学」を見出そうとする人々は概ね、それらを現代における最新の「不気味なもの」、つまり新しい「外部」や「他者」として受け取り、ネットカルチャー発の創造的ムーブメントに違いないと言祝いでいる<sup class="fnref" id="fnref-2"><a href="#ann-2" aria-label="注釈2へ">（2）</a></sup>。</p>
       </div>
       <div class="tgroup">
         <p>しかし、そのようなトレンドの「美学化」「言語化」こそが、私たちの目の前に転がる「オルタナティブ・スペースの死体」を覆い隠す。いくらリミナル性についての理論を遡り、ブルータリズム建築やシュルレアリスムとの類似、影響関係を並べたてたところで、結局のところ、それらは不気味さや不穏さ、奇妙なノスタルジーといった感情を掻き立てるイメージのリスト（wiki）でしかない。</p>
@@ -551,24 +405,11 @@ html.js figure.rec .frame.in { opacity: 1; transform: none; }
     </div>
   </section>
 
-  <!-- ================= 踊り場（B1へ） ================= -->
-  <div class="interlude" data-stage="b1">
-    <figure id="rec-01" class="rec">
-      <div class="frame"><img src="assets/img/mall-chevron-1.jpg" width="1800" height="1350" alt="誰もいない商業施設のフロア。紫と生成りのジグザグ模様の床が窓からの光に照らされている。" loading="lazy" decoding="async"></div>
-      <figcaption><span class="no">No. 01</span>商業施設、営業終了後のフロア。撮影地非公開。</figcaption>
-    </figure>
-    <figure id="rec-02" class="rec">
-      <div class="frame"><img src="assets/img/amusement.jpg" width="1800" height="1012" alt="閉鎖された遊技場。AMUSEMENTのサインの下、立入禁止のテープが床に伸びている。" loading="lazy" decoding="async"></div>
-      <figcaption><span class="no">No. 02</span>遊技場、閉鎖区画。撮影地非公開。</figcaption>
-    </figure>
-  </div>
-
   <!-- ================= ステートメント Ⅱ（B1F） ================= -->
   <section id="statement-2" class="chapter" data-stage="b1" aria-label="ステートメント 二">
-    <div class="ch-mark" aria-hidden="true">Ⅱ</div>
     <div class="prose">
       <div class="tgroup">
-        <p>まず私たちが立ち返るべきは、リミナルスペースが「ネットホラー」のひとつとして生成、構築され、流通している、という事実である。そもそも、ネットミームとしてのリミナルスペースの起源が、ネット掲示板に投稿された「ヤバい画像（cursed images）」「落ち着けない画像（unsettling images）」だったのは、そこに映っているものがまぎれもなく「死体としての空間」であり、多くの人々が直感的、無意識的にその死臭を嗅ぎ取ったからなのだ。</p>
+        <p>まず私たちが立ち返るべきは、リミナルスペースが「ネットホラー」のひとつとして生成、構築され、流通している、という事実である。そもそも、ネットミームとしてのリミナルスペースの起源が、ネット掲示板に投稿された「ヤバい画像（cursed images）」「落ち着けない画像（unsettling images）」だったのは、そこに映っているものがまぎれもなく「死体としての空間」であり、多くの人々が直感的、無意識的にその死臭を嗅ぎ取ったからなのだ<sup class="fnref" id="fnref-3"><a href="#ann-3" aria-label="注釈3へ">（3）</a></sup>。</p>
         <p>かつてオルタナティブ・スペースと呼ばれた空間に投影されていた、あらゆるヴィジョンや可能性や期待が、色褪せながら消滅へ向かっていったその果てに、ネクロフィリアとしてのリミナルスペースが現れたのである。</p>
       </div>
       <div class="tgroup">
@@ -578,21 +419,8 @@ html.js figure.rec .frame.in { opacity: 1; transform: none; }
     </div>
   </section>
 
-  <!-- ================= 踊り場（B2へ） ================= -->
-  <div class="interlude" data-stage="b2">
-    <figure id="rec-03" class="rec">
-      <div class="frame"><img src="assets/img/reception.jpg" width="1800" height="1350" alt="白い無人の受付ホール。カウンターの奥の床に人がひとり座り込んでいる。" loading="lazy" decoding="async"></div>
-      <figcaption><span class="no">No. 03</span>受付。撮影地非公開。</figcaption>
-    </figure>
-    <figure id="rec-04" class="rec portrait">
-      <div class="frame"><img src="assets/img/corridor-yellow.jpg" width="1350" height="1800" alt="黄色い光に染まった短い廊下。突き当たりの壁が光っている。" loading="lazy" decoding="async"></div>
-      <figcaption><span class="no">No. 04</span>廊下。撮影地非公開。</figcaption>
-    </figure>
-  </div>
-
   <!-- ================= ステートメント Ⅲ（B2F） ================= -->
   <section id="statement-3" class="chapter" data-stage="b2" aria-label="ステートメント 三">
-    <div class="ch-mark" aria-hidden="true">Ⅲ</div>
     <div class="prose">
       <div class="tgroup">
         <p>リミナルスペースの発生に先行するのはオルタナティブ・スペースの死であり、その逆ではない。そして、オルタナティブ・スペースの死をめぐる様々な否認は、その「死因」を覆い隠すことからはじまっている。本当は、誰もがその原因を知っているが、語りたくないのだ。</p>
@@ -606,6 +434,23 @@ html.js figure.rec .frame.in { opacity: 1; transform: none; }
         <p>もはや私たちは、この環境に適応するほかないのかもしれない。耕せど耕せど、死体は死体のままで、ついに地面を見ることが叶わないのなら、足元の死体を中間宿主として、そこで育ちうる生命へと変異するべきなのかもしれない。リミナルスペースは、どこか「外部」へとつながる扉でも、「他者」の気配でもないのだから。</p>
       </div>
     </div>
+    <div class="annotations">
+      <div class="ann" id="ann-1" data-n="1">
+        <p>20世紀以降の事例に限定するとしても、国内外で生まれた「オルタナティブ・スペース」についての統一的、包括的な定義は存在していない。したがって、本テキストにおけるオルタナティブ・スペースとは一体どのようなものを指しているのか、不明瞭に感じる読者は多いだろう。しかし一方で、そのような統一的、包括的な定義を与えようとすることが、個々のオルタナティブ・スペースが持つ固有の文脈を覆い隠してしまうこともある。</p>
+        <p>例えば、戦後日本美術史における「日本初のオルタナティブ・スペース」は「佐賀町エキジビット・スペース」(1983~2000年)であるとされている。開設者であり主宰であった小池一子によれば、ニューヨークのPS1設立に大きな示唆を受け、その命名やコンセプトメイクに至るまで、当時の「グローバル・スタンダードを第一義として」いたという。このようなストーリーは、1980年代から国内で進行した「ポストモダン化」によって国外へと開かれてゆくアートシーン、といったお決まりの教科書的歴史観に合致するものだろう。</p>
+        <p>しかし、小池一子といえばまず何よりも、1980年に田中一光とともに西友のプライベートブランド「無印良品」を立ち上げたセゾングループの伝説的プロデューサーであり、その背景には、学生運動に挫折した堤清二によって作られた新たな都市型百貨店（パルコ）の登場や、民間企業主導の消費と文化による「街づくり」（西武劇場、渋谷公園通り）といった、極めてドメスティックな戦後日本社会史、経済・産業史が横たわっている。</p>
+        <p>堤清二が、グループ理念である「経営共和制」「顧客最優先」を提唱したのが戦後日本美術史の「前衛の終焉」である1968年だったこと、70年代から80年代にかけて「市民産業」「生活総合産業」といったスローガンのもと、アート、ファッション、デザイン、広告、音楽、映画といったあらゆる芸術領域を、多角化した百貨店経営に取り込んでいったこと、そしてバブル経済崩壊後、それらが解体されていったことなどは、すべて「日本初のオルタナティブ・スペース」と無関係ではないはずである。</p>
+        <p>美術史研究であれ美術批評であれ、今のところ、このような二つの文脈を統合する言説は確立されておらず、一方を語ればもう一方は背後に退く、というジレンマを解消し得ていない。これについては別の場所で詳しく論じるつもりであるが、本テキストおよび本展で使用されるオルタナティブ・スペースという語は、以上のような批評的関心に基づいて用いられている。</p>
+      </div>
+      <div class="ann" id="ann-2" data-n="2">
+        <p>たとえば、ALT236『リミナルスペース　新しい恐怖の美学』（フィルムアート社、2025年）など。</p>
+      </div>
+      <div class="ann" id="ann-3" data-n="3">
+        <p>妖怪研究で知られる文化人類学者の廣田龍平は、リミナルスペースがネットミームになるきっかけとなった動画『The Backrooms(Found Footage)』(2022年1月7日投稿)について、現代のネットホラーを象徴する３つの要素「ファウンドフッテージ、アナログホラー、モキュメンタリー」が含まれているとして、そのルーツのひとつに、2003年10月26日未明に２ちゃんねるの「オカルト板」にスレッドが立てられた『これって何？』を挙げている。一般的にリミナルスペースの起源として挙げられる2010年代の画像系SNSや4ch、「SCP財団」などではなく、2000年代日本のネットコンテンツ（ネット怪談）からの連続性を見出そうとする廣田の分析は示唆に富んでいる。</p>
+        <p>実際、2004年に公開されたフリーゲーム『ゆめにっき』など、リミナルスペース的なモチーフを扱った高度なクリエイションは、2000年代日本のネットカルチャーのなかで盛んに行われていた。このことは、廣田もたびたび参照するレフ・マノヴィッチのよく知られたテーゼ「ニューメディアにおいては、ナラティブよりデータベースが優先される」情報環境のなかでの創造行為が、すでに2000年代の日本のネットカルチャーにおいて、成熟の域に達していたことを示している。そして2010年代以降、より極端に「データベースドリブン」なコンテンツ、ネットミームがグローバルに拡散していったというプロセスが見て取れる。</p>
+        <p>だとすれば、現在の私たちは、マノヴィッチのテーゼをなぞるように現実を分析するのではなく、デジタルデバイスとソーシャルメディアが世界中に浸透したことによって新たに起こっている、「ナラティブ」リテラシーと「データベース」リテラシーの乖離、つまり、特定のジャンルのデータベース構築に参画できる者たちと、そこから生成されるナラティブしか受容することができない者たちの間に拡がる「格差」について考える必要があるだろう。</p>
+      </div>
+    </div>
     <p class="signature">2026年8月17日　黒瀬陽平</p>
   </section>
 
@@ -616,52 +461,25 @@ html.js figure.rec .frame.in { opacity: 1; transform: none; }
       <span class="h-ja">記録</span>
     </header>
     <div class="gallery">
-    <figure id="rec-05" class="rec">
+    <figure id="rec-01" class="rec">
+      <div class="frame"><img src="assets/img/amusement.jpg" width="1800" height="1012" alt="閉鎖された遊技場。AMUSEMENTのサインの下、立入禁止のテープが床に伸びている。" loading="lazy" decoding="async"></div>
+    </figure>
+    <figure id="rec-02" class="rec tall">
+      <div class="frame"><img src="assets/img/corridor-yellow.jpg" width="1350" height="1800" alt="黄色い光に染まった短い廊下。突き当たりの壁が光っている。" loading="lazy" decoding="async"></div>
+    </figure>
+    <figure id="rec-03" class="rec">
       <div class="frame"><img src="assets/img/navi.jpg" width="1800" height="1012" alt="カーナビゲーションの画面。緑色の経路が誰もいない道路の先へ伸びている。" loading="lazy" decoding="async"></div>
-      <figcaption><span class="no">No. 05</span>経路案内の画面。現在地不明。</figcaption>
     </figure>
-    <figure id="rec-06" class="rec">
-      <div class="frame"><img src="assets/img/map.jpg" width="1800" height="1012" alt="街区案内図。「現在地 YOU ARE HERE」の赤い表示がある。" loading="lazy" decoding="async"></div>
-      <figcaption><span class="no">No. 06</span>案内図。現在地。</figcaption>
-    </figure>
-    <figure id="rec-07" class="rec">
-      <div class="frame"><img src="assets/img/mall-chevron-2.jpg" width="1800" height="1350" alt="退去後の商業施設フロア。ジグザグ模様の床に立入禁止のテープと青いシートが残されている。" loading="lazy" decoding="async"></div>
-      <figcaption><span class="no">No. 07</span>商業施設、退去後のフロア。撮影地非公開。</figcaption>
-    </figure>
-    <figure id="rec-08" class="rec">
-      <div class="frame"><img src="assets/img/immigration.jpg" width="1800" height="1012" alt="無人の入国審査場。誘導ポールが密集して並んでいる。" loading="lazy" decoding="async"></div>
-      <figcaption><span class="no">No. 08</span>入国審査場、待機列。撮影地非公開。</figcaption>
-    </figure>
-    <figure id="rec-09" class="rec">
-      <div class="frame"><img src="assets/img/corridor-panels.jpg" width="1800" height="1350" alt="黄色いパネルに囲まれた廊下。奥へ同じ構造が繰り返し続いている。" loading="lazy" decoding="async"></div>
-      <figcaption><span class="no">No. 09</span>廊下。撮影地非公開。</figcaption>
-    </figure>
-    <figure id="rec-10" class="rec">
+    <figure id="rec-04" class="rec wide">
       <div class="frame"><img src="assets/img/concrete.jpg" width="1800" height="1350" alt="内装が撤去されたコンクリートの躯体。柱と梁だけが蛍光灯に照らされている。" loading="lazy" decoding="async"></div>
-      <figcaption><span class="no">No. 10</span>躯体。撮影地非公開。</figcaption>
     </figure>
-    <figure id="rec-11" class="rec">
-      <div class="frame"><img src="assets/img/conference-night.jpg" width="1800" height="1012" alt="深夜の会議室。コの字に並んだ机と椅子。窓の外に夜景が見える。" loading="lazy" decoding="async"></div>
-      <figcaption><span class="no">No. 11</span>会議室、深夜。撮影地非公開。</figcaption>
-    </figure>
-    <figure id="rec-12" class="rec">
+    <figure id="rec-05" class="rec wide">
       <div class="frame"><img src="assets/img/lobby-dark.jpg" width="1800" height="1012" alt="消灯後のロビー。かすかな明かりの奥に受付台が見える。" loading="lazy" decoding="async"></div>
-      <figcaption><span class="no">No. 12</span>ロビー、消灯後。撮影地非公開。</figcaption>
     </figure>
-    <figure id="rec-13" class="rec wide">
+    <figure id="rec-06" class="rec wide">
       <div class="frame"><img src="assets/img/corridor-blur.jpg" width="1800" height="1012" alt="ぶれた深夜の廊下。裸電球の白い光だけが並んで写っている。" loading="lazy" decoding="async"></div>
-      <figcaption><span class="no">No. 13</span>廊下、深夜。撮影地非公開。</figcaption>
     </figure>
     </div>
-  </section>
-
-  <!-- ================= ボタンの間（B3F） ================= -->
-  <section class="sec button-room" data-stage="deep" aria-label="記録 No.13">
-    <figure id="rec-14" class="rec">
-      <div class="frame"><img src="assets/img/button.jpg" width="1800" height="1012" alt="黒い革張りの壁に付いた小さな白いボタン。上に「ボタンを押しても何も起こりません」と書かれた丸いステッカーが貼られている。" loading="lazy" decoding="async"></div>
-      <figcaption style="text-align:center"><span class="no">No. 14</span>撮影地非公開。</figcaption>
-    </figure>
-    <button type="button" class="nothing-btn" id="nothing">ボタンを押しても何も起こりません</button>
   </section>
 
   <!-- ================= 開催概要（B3F） ================= -->
@@ -682,10 +500,6 @@ html.js figure.rec .frame.in { opacity: 1; transform: none; }
       <div>
         <dt>第2部</dt>
         <dd>会期｜2026年12月<br>会場｜関西某所</dd>
-      </div>
-      <div>
-        <dt>テキスト</dt>
-        <dd>黒瀬陽平</dd>
       </div>
     </dl>
     <p class="fineprint">※会場・日時などの詳細情報は、順次本ページにて公開されます。</p>
@@ -754,13 +568,13 @@ html.js figure.rec .frame.in { opacity: 1; transform: none; }
   }
 
   /* ---- 3D廊下: 視線のパララックス（PC=カーソル / モバイル=ジャイロ） ---- */
-  var space = document.getElementById('corridor-space');
+  var space = document.getElementById('hero-par');
   if (space && !reduced) {
     var tx = 0, ty = 0, px = 0, py = 0, running = false;
     function step() {
       px += (tx - px) * 0.06;
       py += (ty - py) * 0.06;
-      space.style.transform = 'rotateY(' + (px * 4).toFixed(3) + 'deg) rotateX(' + (-py * 2.5).toFixed(3) + 'deg)';
+      space.style.transform = 'translate3d(' + (px * -26).toFixed(2) + 'px, ' + (py * -16).toFixed(2) + 'px, 0)';
       if (Math.abs(px - tx) + Math.abs(py - ty) > 0.0008) requestAnimationFrame(step);
       else running = false;
     }
@@ -803,10 +617,6 @@ html.js figure.rec .frame.in { opacity: 1; transform: none; }
       }
     }
   }
-
-  /* ---- ボタンを押しても何も起こりません ---- */
-  var nothing = document.getElementById('nothing');
-  if (nothing) nothing.addEventListener('click', function () { /* 何も起こらない */ });
 
 })();
 </script>
