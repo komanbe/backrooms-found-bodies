@@ -3,7 +3,12 @@
 黒瀬陽平によるステートメントを中核にした、1ページ縦スクロール完結型の展覧会サイト。
 全編白背景（#F4F2EE）のミニマル構成。
 
-公開URL: https://komanbe.github.io/backrooms-found-bodies/
+公開URL: **https://geijutsugakkou.com/backroomsfb/**
+（旧URL https://komanbe.github.io/backrooms-found-bodies/ からは自動転送）
+
+- ドメイン: お名前.com管理の geijutsugakkou.com（Aレコード4件→GitHub Pages、ネームサーバー=01〜04.dnsv.jp）
+- ルート（geijutsugakkou.com/）は /backroomsfb/ へリダイレクト。トップページは未着手
+- カスタムドメインは `CNAME` ファイルで管理（このファイルを消すとドメイン設定が外れるので注意）
 
 ## 構成
 
