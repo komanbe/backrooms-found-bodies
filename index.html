@@ -143,34 +143,34 @@ img { max-width: 100%; height: auto; display: block; }
 }
 .fnref a:hover { text-decoration: underline; }
 
-/* ---------------- 写真（原寸比率のまま） ---------------- */
-.solo { width: 100%; }
-.solo img { width: 100%; height: auto; }
-
-/* ---------------- 写真の上に本文が重なるパネル ---------------- */
-/* 本文パネル: 背景写真は固定され、文字がその上を流れる（視差） */
-.panel {
+/* ----------------------------------------------------------------
+   背景写真はすべて「固定された窓」。スクロールすると
+   窓の外の景色のように写真がずれて流れ、全体がつながって見える。
+   ---------------------------------------------------------------- */
+.win {
   position: relative;
   isolation: isolate;
   clip-path: inset(0);
 }
-.panel > img {
+.win > img {
   position: fixed; top: 0; left: 0;
   width: 100vw;
   height: 100vh; height: 100lvh;
   object-fit: cover;
   z-index: 0;
 }
-.panel::before {
-  content: ""; position: absolute; inset: 0;
-  background: rgba(244, 242, 238, .66);
-  z-index: 1;
+/* 文字なしの窓 */
+.win.band { height: 74vh; }
+/* 文字あり: 透明白レイヤーのカード＋黒文字 */
+.win .ptext {
+  position: relative; z-index: 1;
+  padding: clamp(64px, 15vh, 150px) clamp(20px, 5vw, 48px);
 }
-.panel .ptext {
-  position: relative; z-index: 2;
-  padding: clamp(56px, 14vh, 140px) clamp(20px, 5vw, 48px);
+.win .prose {
+  color: var(--ink);
+  background: rgba(244, 242, 238, .74);
+  padding: clamp(26px, 4vw, 48px) clamp(22px, 4vw, 48px);
 }
-.panel .prose { color: var(--ink); }
 
 /* ---------------- 注釈 ---------------- */
 .annotations {
@@ -245,7 +245,7 @@ img { max-width: 100%; height: auto; display: block; }
     <h1>Backrooms<span class="paren">( Found Bodies )</span></h1>
   </div>
 
-  <section id="statement" class="panel">
+  <section id="statement" class="win">
     <img src="assets/img/p00.jpg" alt="閉鎖された遊技場のフロア。" decoding="async">
     <div class="ptext">
       <div class="prose">
@@ -256,9 +256,9 @@ img { max-width: 100%; height: auto; display: block; }
     </div>
   </section>
 
-  <figure class="solo"><img src="assets/img/p01.jpg" width="1350" height="1800" alt="黄色い光に染まった短い廊下。" loading="lazy" decoding="async"></figure>
+  <figure class="win band"><img src="assets/img/p01.jpg" alt="黄色い光に染まった短い廊下。" decoding="async"></figure>
 
-  <section class="panel">
+  <section class="win">
     <img src="assets/img/p02.jpg" alt="宴会場に並べられた椅子。" decoding="async">
     <div class="ptext">
       <div class="prose">
@@ -269,9 +269,9 @@ img { max-width: 100%; height: auto; display: block; }
     </div>
   </section>
 
-  <figure class="solo"><img src="assets/img/p03.jpg" width="1800" height="1012" alt="壁に掛かった風景画。" loading="lazy" decoding="async"></figure>
+  <figure class="win band"><img src="assets/img/p03.jpg" alt="壁に掛かった風景画。" decoding="async"></figure>
 
-  <section class="panel">
+  <section class="win">
     <img src="assets/img/p04.jpg" alt="内装が撤去されたコンクリートの躯体。" decoding="async">
     <div class="ptext">
       <div class="prose">
@@ -283,9 +283,9 @@ img { max-width: 100%; height: auto; display: block; }
     </div>
   </section>
 
-  <figure class="solo"><img src="assets/img/p05.jpg" width="1800" height="1012" alt="無人の入国審査場。" loading="lazy" decoding="async"></figure>
+  <figure class="win band"><img src="assets/img/p05.jpg" alt="無人の入国審査場。" decoding="async"></figure>
 
-  <section class="panel">
+  <section class="win">
     <img src="assets/img/p06.jpg" alt="閉店後の売場の裏。ガラスの間仕切りと台車。" decoding="async">
     <div class="ptext">
       <div class="prose">
@@ -297,11 +297,11 @@ img { max-width: 100%; height: auto; display: block; }
     </div>
   </section>
 
-  <figure class="solo"><img src="assets/img/p08.jpg" width="965" height="543" alt="深夜の会議室。" loading="lazy" decoding="async"></figure>
+  <figure class="win band"><img src="assets/img/p08.jpg" alt="深夜の会議室。" decoding="async"></figure>
 
-  <figure class="solo"><img src="assets/img/p09.jpg" width="1800" height="1012" alt="街区案内図。現在地の表示。" loading="lazy" decoding="async"></figure>
+  <figure class="win band"><img src="assets/img/p09.jpg" alt="街区案内図。現在地の表示。" decoding="async"></figure>
 
-  <section class="panel">
+  <section class="win">
     <img src="assets/img/p10.jpg" alt="白いキッチン。" decoding="async">
     <div class="ptext">
       <div class="prose">
@@ -313,7 +313,7 @@ img { max-width: 100%; height: auto; display: block; }
     </div>
   </section>
 
-  <section class="panel">
+  <section class="win">
     <img src="assets/img/p11.jpg" alt="ぶれた深夜の廊下。" decoding="async">
     <div class="ptext">
       <div class="prose">
@@ -325,11 +325,11 @@ img { max-width: 100%; height: auto; display: block; }
     </div>
   </section>
 
-  <figure class="solo"><img src="assets/img/p12.jpg" width="1800" height="1350" alt="夜の駐車場を見下ろす。" loading="lazy" decoding="async"></figure>
+  <figure class="win band"><img src="assets/img/p12.jpg" alt="夜の駐車場を見下ろす。" decoding="async"></figure>
 
-  <figure class="solo"><img src="assets/img/p13.jpg" width="1800" height="1013" alt="吹き抜けのロビー。" loading="lazy" decoding="async"></figure>
+  <figure class="win band"><img src="assets/img/p13.jpg" alt="吹き抜けのロビー。" decoding="async"></figure>
 
-  <section class="panel">
+  <section class="win">
     <img src="assets/img/p14.jpg" alt="夜の階段の入口。" decoding="async">
     <div class="ptext">
       <div class="prose">
@@ -341,9 +341,9 @@ img { max-width: 100%; height: auto; display: block; }
     </div>
   </section>
 
-  <figure class="solo"><img src="assets/img/p15.jpg" width="1800" height="1012" alt="パラボラアンテナのある建物。" loading="lazy" decoding="async"></figure>
+  <figure class="win band"><img src="assets/img/p15.jpg" alt="パラボラアンテナのある建物。" decoding="async"></figure>
 
-  <section class="panel">
+  <section class="win">
     <img src="assets/img/p16.jpg" alt="白い空室。" decoding="async">
     <div class="ptext">
       <div class="prose">
@@ -355,11 +355,11 @@ img { max-width: 100%; height: auto; display: block; }
     </div>
   </section>
 
-  <figure class="solo"><img src="assets/img/p17.jpg" width="1800" height="1012" alt="消灯後のロビー。" loading="lazy" decoding="async"></figure>
+  <figure class="win band"><img src="assets/img/p17.jpg" alt="消灯後のロビー。" decoding="async"></figure>
 
-  <figure class="solo"><img src="assets/img/p18.jpg" width="1800" height="1012" alt="経路案内の画面。" loading="lazy" decoding="async"></figure>
+  <figure class="win band"><img src="assets/img/p18.jpg" alt="経路案内の画面。" decoding="async"></figure>
 
-  <section class="panel">
+  <section class="win">
     <img src="assets/img/p19.jpg" alt="曇天の海。" decoding="async">
     <div class="ptext">
       <div class="prose">
