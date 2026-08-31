@@ -94,9 +94,9 @@ html.js .bgstrip {
 }
 
 /* ---------------- ファーストビュー ---------------- */
-.hero-space { height: 86svh; }
-.bgfirst { position: relative; }
-.bgfirst h1 {
+/* 高さ＝最初の写真（4:3）と画面の小さい方。タイトルは常にその左下。 */
+.hero-space { position: relative; height: min(88svh, 75vw); }
+.hero-space h1 {
   position: absolute;
   left: clamp(20px, 6vw, 80px);
   bottom: clamp(16px, 4vh, 44px);
@@ -109,14 +109,14 @@ html.js .bgstrip {
   padding: .55em 1.1em;
   animation: h1-flicker 9s linear infinite;
 }
-.bgfirst h1 .paren { font-style: italic; letter-spacing: .1em; }
+.hero-space h1 .paren { font-style: italic; letter-spacing: .1em; }
 @keyframes h1-flicker {
   0%, 91.5%, 93.4%, 100% { opacity: 1; }
   91.9% { opacity: .32; }
   92.4% { opacity: .85; }
   92.9% { opacity: .5; }
 }
-@media (prefers-reduced-motion: reduce) { .bgfirst h1 { animation: none; } }
+@media (prefers-reduced-motion: reduce) { .hero-space h1 { animation: none; } }
 
 /* ---------------- 透明白の帯（横いっぱい）＋黒文字 ---------------- */
 .band-text {
@@ -220,10 +220,7 @@ section[aria-label="注釈と署名"] .annotations {
 <div class="flicker-overlay" aria-hidden="true"></div>
 
 <div class="bgstrip">
-  <div class="bgfirst">
-    <img src="assets/img/mall-chevron-1.jpg" width="1800" height="1350" alt="誰もいない商業施設のフロア。紫と生成りのジグザグ模様の床。" decoding="async">
-    <h1>Backrooms<span class="paren">( Found Bodies )</span></h1>
-  </div>
+  <img src="assets/img/mall-chevron-1.jpg" width="1800" height="1350" alt="誰もいない商業施設のフロア。紫と生成りのジグザグ模様の床。" decoding="async">
   <img src="assets/img/p00.jpg" width="1800" height="1012" alt="" decoding="async">
   <img src="assets/img/p01.jpg" width="1350" height="1800" alt="" decoding="async">
   <img src="assets/img/p02.jpg" width="1800" height="1012" alt="" decoding="async">
@@ -247,7 +244,9 @@ section[aria-label="注釈と署名"] .annotations {
 
 <main id="statement">
 
-  <div class="hero-space" aria-hidden="true"></div>
+  <div class="hero-space">
+    <h1>Backrooms<span class="paren">( Found Bodies )</span></h1>
+  </div>
 
   <section class="band-text">
     <div class="prose">
