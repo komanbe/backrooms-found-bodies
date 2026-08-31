@@ -98,13 +98,16 @@ img { max-width: 100%; height: auto; display: block; }
 .hero img { width: 100%; height: auto; display: block; }
 .hero h1 {
   position: absolute;
-  left: clamp(20px, 6vw, 80px);
-  bottom: 9%;
+  right: clamp(20px, 6vw, 80px);
+  top: 50%;
+  transform: translateY(-50%);
   font-family: var(--latin); font-weight: 400;
   font-size: clamp(17px, 1.9vw, 23px);
   letter-spacing: .14em;
   line-height: 1.6;
   white-space: nowrap;
+  background: rgba(244, 242, 238, .62);
+  padding: .55em 1.1em;
   animation: h1-flicker 9s linear infinite;
 }
 .hero h1 .paren { font-style: italic; letter-spacing: .1em; }
@@ -150,21 +153,27 @@ img { max-width: 100%; height: auto; display: block; }
   position: absolute; inset: 0;
   width: 100%; height: 100%;
   object-fit: cover;
+  z-index: 0;
 }
 .panel::before {
   content: ""; position: absolute; inset: 0;
-  background: rgba(10, 10, 12, .34);
+  z-index: 1;
 }
 .panel .ptext {
-  position: relative;
-  padding: clamp(56px, 16vh, 160px) clamp(20px, 5vw, 48px);
+  position: relative; z-index: 2;
+  padding: clamp(56px, 14vh, 140px) clamp(20px, 5vw, 48px);
 }
-.panel .prose {
+/* 暗い写真: 黒の半透明 + 白文字 */
+.panel.dark::before { background: rgba(10, 10, 12, .5); }
+.panel.dark .prose {
   color: #F2F0E8;
   font-weight: 500;
-  text-shadow: 0 1px 18px rgba(0, 0, 0, .5);
+  text-shadow: 0 1px 18px rgba(0, 0, 0, .45);
 }
-.panel .fnref a { color: #E5C860; }
+.panel.dark .fnref a { color: #E5C860; }
+/* 明るい写真: 白の半透明 + 墨文字 */
+.panel.light::before { background: rgba(244, 242, 238, .64); }
+.panel.light .prose { color: var(--ink); }
 
 /* ---------------- 注釈 ---------------- */
 .annotations {
@@ -239,46 +248,51 @@ img { max-width: 100%; height: auto; display: block; }
     <h1>Backrooms<span class="paren">( Found Bodies )</span></h1>
   </div>
 
-  <section id="statement" class="chapter">
-    <div class="prose">
-      <div class="tgroup">
+  <section id="statement" class="panel light">
+    <img src="assets/img/p00.jpg" alt="閉鎖された遊技場のフロア。" loading="lazy" decoding="async">
+    <div class="ptext">
+      <div class="prose">
+        <div class="tgroup">
         <p>リミナルスペースとは、かつて「オルタナティブ・スペース」と呼ばれていたものの「死体」である<sup class="fnref" id="fnref-1"><a href="#ann-1" aria-label="注釈1へ">（1）</a></sup>。</p>
+      </div>
       </div>
     </div>
   </section>
-
-  <figure class="solo"><img src="assets/img/p00.jpg" width="1800" height="1012" alt="閉鎖された遊技場のフロア。" loading="lazy" decoding="async"></figure>
 
   <figure class="solo"><img src="assets/img/p01.jpg" width="1350" height="1800" alt="黄色い光に染まった短い廊下。" loading="lazy" decoding="async"></figure>
 
-  <section class="chapter">
-    <div class="prose">
-      <div class="tgroup">
+  <section class="panel light">
+    <img src="assets/img/p02.jpg" alt="宴会場に並べられた椅子。" loading="lazy" decoding="async">
+    <div class="ptext">
+      <div class="prose">
+        <div class="tgroup">
         <p>もちろん、ネットミームとしてのリミナルスペースは、決してそのように定義されてこなかった。インターネット上のリミナルスペースに「新たな美学」を見出そうとする人々は概ね、それらを現代における最新の「不気味なもの」、つまり新しい「外部」や「他者」として受け取り、ネットカルチャー発の創造的ムーブメントに違いないと言祝いでいる<sup class="fnref" id="fnref-2"><a href="#ann-2" aria-label="注釈2へ">（2）</a></sup>。</p>
+      </div>
       </div>
     </div>
   </section>
-
-  <figure class="solo"><img src="assets/img/p02.jpg" width="1800" height="1012" alt="宴会場に並べられた椅子。" loading="lazy" decoding="async"></figure>
 
   <figure class="solo"><img src="assets/img/p03.jpg" width="1800" height="1012" alt="壁に掛かった風景画。" loading="lazy" decoding="async"></figure>
 
-  <section class="chapter">
-    <div class="prose">
-      <div class="tgroup">
+  <section class="panel light">
+    <img src="assets/img/p04.jpg" alt="内装が撤去されたコンクリートの躯体。" loading="lazy" decoding="async">
+    <div class="ptext">
+      <div class="prose">
+        <div class="tgroup">
         <p>しかし、そのようなトレンドの「美学化」「言語化」こそが、私たちの目の前に転がる「オルタナティブ・スペースの死体」を覆い隠す。いくらリミナル性についての理論を遡り、ブルータリズム建築やシュルレアリスムとの類似、影響関係を並べたてたところで、結局のところ、それらは不気味さや不穏さ、奇妙なノスタルジーといった感情を掻き立てるイメージのリスト（wiki）でしかない。</p>
         <p>リミナルスペースは人類学や美術史と淀みなく連続しているはずである、と考えるその「美学」こそが、オルタナティブ・スペースが死んでしまったこの現実に対する「否認」なのだ。そしてもちろん、リミナルスペースなど浅薄なネットカルチャーのトレンドに過ぎず、アートと全く関係がないとする態度もまた、現代美術の置かれた絶望的な現状から目を背ける否認にほかならない。</p>
+      </div>
       </div>
     </div>
   </section>
 
-  <figure class="solo"><img src="assets/img/p04.jpg" width="1800" height="1350" alt="内装が撤去されたコンクリートの躯体。" loading="lazy" decoding="async"></figure>
-
   <figure class="solo"><img src="assets/img/p05.jpg" width="1800" height="1012" alt="無人の入国審査場。" loading="lazy" decoding="async"></figure>
 
-  <section class="chapter">
-    <div class="prose">
-      <div class="tgroup">
+  <section class="panel light">
+    <img src="assets/img/p06.jpg" alt="閉店後の売場の裏。ガラスの間仕切りと台車。" loading="lazy" decoding="async">
+    <div class="ptext">
+      <div class="prose">
+        <div class="tgroup">
         <p>現代美術はその始まりからずっと、新たなオルタナティブ・スペースの誕生とともにあった。にもかかわらず、ここ十数年で加速度的に進行し、手の施しようがないように見えるオルタナティブ・スペースの死について、誰もが語ろうとしない。</p>
         <p>リミナルスペースが「新たな美学」（オルタナティブ・スペースは新しく生まれている）であってほしいと望む否認と、リミナルスペースなど「アートに比べれば」取るに足らないもの（オルタナティブ・スペースはまだ死んでいない）であると切り捨てる否認。その二つの否認が招いたのは、一方では無内容なアートフェアの乱立や、ヴィジョンを欠いたブランディングとしてのアート投資の流行であり、また一方では権威主義の復活や、ネット・アクティヴィズムと一体化したアートのポピュリズム化であった。</p>
       </div>
@@ -286,24 +300,23 @@ img { max-width: 100%; height: auto; display: block; }
     </div>
   </section>
 
-  <figure class="solo"><img src="assets/img/p06.jpg" width="1800" height="1012" alt="閉店後の売場の裏。ガラスの間仕切りと台車。" loading="lazy" decoding="async"></figure>
-
   <figure class="solo"><img src="assets/img/p08.jpg" width="965" height="543" alt="深夜の会議室。" loading="lazy" decoding="async"></figure>
 
-  <section class="chapter">
-    <div class="prose">
-      <div class="tgroup">
+  <figure class="solo"><img src="assets/img/p09.jpg" width="1800" height="1012" alt="街区案内図。現在地の表示。" loading="lazy" decoding="async"></figure>
+
+  <section class="panel light">
+    <img src="assets/img/p10.jpg" alt="白いキッチン。" loading="lazy" decoding="async">
+    <div class="ptext">
+      <div class="prose">
+        <div class="tgroup">
         <p>まず私たちが立ち返るべきは、リミナルスペースが「ネットホラー」のひとつとして生成、構築され、流通している、という事実である。そもそも、ネットミームとしてのリミナルスペースの起源が、ネット掲示板に投稿された「ヤバい画像（cursed images）」「落ち着けない画像（unsettling images）」だったのは、そこに映っているものがまぎれもなく「死体としての空間」であり、多くの人々が直感的、無意識的にその死臭を嗅ぎ取ったからなのだ<sup class="fnref" id="fnref-3"><a href="#ann-3" aria-label="注釈3へ">（3）</a></sup>。</p>
         <p>かつてオルタナティブ・スペースと呼ばれた空間に投影されていた、あらゆるヴィジョンや可能性や期待が、色褪せながら消滅へ向かっていったその果てに、ネクロフィリアとしてのリミナルスペースが現れたのである。</p>
+      </div>
       </div>
     </div>
   </section>
 
-  <figure class="solo"><img src="assets/img/p09.jpg" width="1800" height="1012" alt="街区案内図。現在地の表示。" loading="lazy" decoding="async"></figure>
-
-  <figure class="solo"><img src="assets/img/p10.jpg" width="1800" height="1013" alt="白いキッチン。" loading="lazy" decoding="async"></figure>
-
-  <section class="panel">
+  <section class="panel dark">
     <img src="assets/img/p11.jpg" alt="ぶれた深夜の廊下。" loading="lazy" decoding="async">
     <div class="ptext">
       <div class="prose">
@@ -319,7 +332,7 @@ img { max-width: 100%; height: auto; display: block; }
 
   <figure class="solo"><img src="assets/img/p13.jpg" width="1800" height="1013" alt="吹き抜けのロビー。" loading="lazy" decoding="async"></figure>
 
-  <section class="panel">
+  <section class="panel dark">
     <img src="assets/img/p14.jpg" alt="夜の階段の入口。" loading="lazy" decoding="async">
     <div class="ptext">
       <div class="prose">
@@ -328,19 +341,19 @@ img { max-width: 100%; height: auto; display: block; }
         <p>あえて乱暴に、その「死因」を言葉にしてみるなら、それはおそらく、芸術における「一次産業」の失敗と放棄、である。そもそもオルタナティブ・スペースは、足元の「死体」に水をやり、耕すところから生まれたはずだった。先に見た二種類の否認は、芸術の一次産業から離れ、形骸化した二次産業や、お決まりのビジネスモデルに依存した三次、四次産業が蔓延してゆくにつれて、ますます強固なものになっていった。今や人々は、芸術の一次産業とはどんなもので、どうやっていたのかすら、思い出せなくなっている。</p>
       </div>
       </div>
-      </div>
     </div>
   </section>
 
   <figure class="solo"><img src="assets/img/p15.jpg" width="1800" height="1012" alt="パラボラアンテナのある建物。" loading="lazy" decoding="async"></figure>
 
-  <figure class="solo"><img src="assets/img/p16.jpg" width="1800" height="1012" alt="白い空室。" loading="lazy" decoding="async"></figure>
-
-  <section class="chapter">
-    <div class="prose">
-      <div class="tgroup">
+  <section class="panel light">
+    <img src="assets/img/p16.jpg" alt="白い空室。" loading="lazy" decoding="async">
+    <div class="ptext">
+      <div class="prose">
+        <div class="tgroup">
         <p>かつて夢に見たオルタナティブ・スペースは、もう生まれない。少なくとも当分の間は。なぜなら、もうすでに大量の、見過ごされてきた「死体」の山が積み重なり、地面すら見えなくなってしまったから。手を変え品を変え、その死体の山を覆い隠そうとした結果、漏れ出した死臭がいたるところに漂っているから。</p>
         <p>それでもなお、「アート」はその腐臭に気がつかない。だからこそ、その腐臭はネットカルチャーにまで辿り着いて、リミナルスペースとして現れた。</p>
+      </div>
       </div>
     </div>
   </section>
@@ -349,13 +362,12 @@ img { max-width: 100%; height: auto; display: block; }
 
   <figure class="solo"><img src="assets/img/p18.jpg" width="1800" height="1012" alt="経路案内の画面。" loading="lazy" decoding="async"></figure>
 
-  <section class="panel">
+  <section class="panel dark">
     <img src="assets/img/p19.jpg" alt="曇天の海。" loading="lazy" decoding="async">
     <div class="ptext">
       <div class="prose">
         <div class="tgroup">
         <p>もはや私たちは、この環境に適応するほかないのかもしれない。耕せど耕せど、死体は死体のままで、ついに地面を見ることが叶わないのなら、足元の死体を中間宿主として、そこで育ちうる生命へと変異するべきなのかもしれない。リミナルスペースは、どこか「外部」へとつながる扉でも、「他者」の気配でもないのだから。</p>
-      </div>
       </div>
       </div>
     </div>
