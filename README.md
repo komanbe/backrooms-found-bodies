@@ -1,4 +1,4 @@
-# Backrooms(Found Bodies) 展覧会特設サイト
+# Backrooms (Found Bodies) 展覧会特設サイト
 
 黒瀬陽平によるステートメントを中核にした、1ページ縦スクロール完結型の展覧会サイト。
 全編白背景（#F4F2EE）のミニマル構成。
