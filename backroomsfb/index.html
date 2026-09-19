@@ -139,7 +139,8 @@ html.js .bgstrip {
   line-break: strict;
   hanging-punctuation: allow-end;
 }
-.prose p { text-indent: 1em; }
+.prose p { text-indent: 1em; text-wrap: pretty; }
+.nb { white-space: nowrap; }
 .fnref { line-height: 0; }
 .fnref a {
   font-size: .68em;
@@ -162,8 +163,8 @@ html.js .bgstrip {
   hyphens: auto;
   font-variant-ligatures: common-ligatures;
 }
-.prose .en p { text-indent: 0; }
-.prose .en p + p { text-indent: 1.4em; }
+.prose .en p { text-indent: 0; text-wrap: pretty; }
+.prose .en p + p { margin-top: .9em; }
 .en .fnref a { font-family: var(--latin); font-size: .72em; }
 .tnref { line-height: 0; }
 .tnref a {
@@ -204,10 +205,12 @@ html.js .bgstrip {
   -webkit-hyphens: auto; hyphens: auto;
 }
 .tn-label { font-weight: 500; letter-spacing: .04em; margin-bottom: 1.1em; }
+.tn p { text-wrap: pretty; }
 .tn p + p { margin-top: .9em; }
 .tn p { scroll-margin-top: 40px; }
 .tn b { font-weight: 500; }
 @media (max-width: 640px) { .annotations .ann.en, .tn { font-size: 13.5px; } }
+.annotations p { text-wrap: pretty; }
 .annotations p + p { margin-top: .9em; }
 @media (max-width: 640px) { .annotations { font-size: 13px; } }
 .ps-label {
@@ -544,6 +547,76 @@ section[aria-label="注釈と署名"] .annotations {
     if (reduced || lit) overlay.remove();
   }
 
+  /* ---- 日本語の行末調整 ----
+     最終行が3文字以下になった段落は、まず字間をわずかに詰めて前の行へ追い込む。
+     詰めても収まらないときは、末尾の数文字を改行させずに次の行へ送る。 */
+  var MIN_LAST = 3.6;
+  var jaPs = Array.prototype.slice.call(document.querySelectorAll('.prose .tgroup p, .annotations .ann:not(.en) p'));
+  function lineInfo(p) {
+    var r = document.createRange();
+    r.selectNodeContents(p);
+    var rects = Array.prototype.filter.call(r.getClientRects(), function (x) { return x.width > 0.5; });
+    if (!rects.length) return null;
+    var cs = getComputedStyle(p);
+    var fs = parseFloat(cs.fontSize);
+    var lh = parseFloat(cs.lineHeight) || fs * 1.8;
+    var maxB = -Infinity, minT = Infinity;
+    rects.forEach(function (x) { if (x.bottom > maxB) maxB = x.bottom; if (x.top < minT) minT = x.top; });
+    var l = Infinity, rr = -Infinity;
+    rects.forEach(function (x) {
+      if (x.bottom > maxB - lh * 0.5) { if (x.left < l) l = x.left; if (x.right > rr) rr = x.right; }
+    });
+    return { lines: Math.round((maxB - minT) / lh), lastEm: (rr - l) / fs };
+  }
+  function isShort(info) { return info && info.lines > 1 && info.lastEm < MIN_LAST; }
+  function reset(p) {
+    p.style.letterSpacing = '';
+    var nb = p.querySelector('.nb');
+    if (nb) {
+      while (nb.firstChild) p.insertBefore(nb.firstChild, nb);
+      p.removeChild(nb);
+      p.normalize();
+    }
+  }
+  function keepTail(p, n) {
+    var nodes = p.childNodes, count = 0, i = nodes.length - 1, startNode = null, startOff = 0;
+    for (; i >= 0; i--) {
+      var node = nodes[i];
+      if (node.nodeType === 3) {
+        var t = node.nodeValue;
+        if (count + t.length >= n) { startNode = node; startOff = t.length - (n - count); break; }
+        count += t.length;
+      } else {
+        count += (node.textContent || '').length;
+        if (count >= n) { startNode = p; startOff = i; break; }
+      }
+    }
+    if (!startNode) return;
+    var r = document.createRange();
+    r.setStart(startNode, startOff);
+    r.setEnd(p, nodes.length);
+    var span = document.createElement('span');
+    span.className = 'nb';
+    span.appendChild(r.extractContents());
+    p.appendChild(span);
+  }
+  function typeset() {
+    jaPs.forEach(reset);
+    var offenders = jaPs.filter(function (p) { return isShort(lineInfo(p)); });
+    offenders.forEach(function (p) {
+      var before = lineInfo(p);
+      var fs = parseFloat(getComputedStyle(p).fontSize);
+      var base = (parseFloat(getComputedStyle(p).letterSpacing) || 0) / fs;
+      for (var step = 1; step <= 5; step++) {
+        p.style.letterSpacing = (base - 0.01 * step).toFixed(3) + 'em';
+        var now = lineInfo(p);
+        if (now && now.lines < before.lines && !isShort(now)) return;
+      }
+      p.style.letterSpacing = '';
+      keepTail(p, 5);
+    });
+  }
+
   /* ---- 背景の写真帯: 文字とずれて流れる（足りない分は写真をループ） ---- */
   var strip = document.querySelector('.bgstrip');
   if (strip) {
@@ -582,7 +655,7 @@ section[aria-label="注釈と署名"] .annotations {
       k = (docH - vh) > 0 ? (strip.scrollHeight - vh) / (docH - vh) : 1;
       apply();
     }
-    function rebuild() { fill(); measure(); }
+    function rebuild() { typeset(); fill(); measure(); }
     var ticking = false;
     function apply() {
       ticking = false;
