@@ -15,7 +15,7 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3E%3Crect%20width='64'%20height='64'%20fill='%23101012'/%3E%3Crect%20x='23'%20y='15'%20width='18'%20height='36'%20fill='none'%20stroke='%23C9A227'%20stroke-width='2.5'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Zen+Old+Mincho:wght@400;500&family=EB+Garamond:ital,wght@0,400;1,400&family=Noto+Sans+JP:wght@300;400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Zen+Old+Mincho:wght@400;500&family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Noto+Sans+JP:wght@300;400&display=swap" rel="stylesheet">
 <style>
 /* ================================================================
    Backrooms (Found Bodies)
@@ -34,9 +34,11 @@
   --fs-body: 17.5px;
   --measure: 36em;
   --veil: rgba(244, 242, 238, .74);
+  --fs-en: 16.5px;
+  --ann-indent: 38px;
 }
 @media (max-width: 640px) {
-  :root { --fs-body: 14px; }
+  :root { --fs-body: 14px; --fs-en: 13.5px; --ann-indent: 36px; }
 }
 * { margin: 0; padding: 0; box-sizing: border-box; }
 html { scroll-behavior: smooth; }
@@ -147,6 +149,30 @@ html.js .bgstrip {
 }
 .fnref a:hover { text-decoration: underline; }
 
+/* ---------------- 英文（日本語に併記・気持ち小さめ） ---------------- */
+.prose .en {
+  margin-top: 1.9em;
+  font-family: var(--latin);
+  font-size: var(--fs-en);
+  line-height: 1.72;
+  letter-spacing: .005em;
+  text-align: justify;
+  text-justify: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+  font-variant-ligatures: common-ligatures;
+}
+.prose .en p { text-indent: 0; }
+.prose .en p + p { text-indent: 1.4em; }
+.en .fnref a { font-family: var(--latin); font-size: .72em; }
+.tnref { line-height: 0; }
+.tnref a {
+  font-size: .66em; letter-spacing: .02em;
+  text-decoration: none;
+  padding-left: .08em;
+}
+.tnref a:hover { text-decoration: underline; }
+
 /* ---------------- 注釈・署名 ---------------- */
 .annotations {
   max-width: 39em;
@@ -155,13 +181,33 @@ html.js .bgstrip {
   font-family: var(--gothic); font-weight: 300;
   font-size: 13.5px; line-height: 1.95; letter-spacing: .02em;
 }
-.annotations .ann { position: relative; padding-left: 2.8em; scroll-margin-top: 40px; }
+.annotations .ann { position: relative; padding-left: var(--ann-indent); scroll-margin-top: 40px; }
 .annotations .ann + .ann { margin-top: 2.2em; }
 .annotations .ann::before {
-  content: "（" attr(data-n) "）";
+  content: attr(data-n);
   position: absolute; left: 0; top: 0;
   color: var(--accent);
 }
+.annotations .ann.en {
+  margin-top: 1.3em;
+  font-family: var(--latin); font-weight: 400;
+  font-size: 14.5px; line-height: 1.7; letter-spacing: .005em;
+  -webkit-hyphens: auto; hyphens: auto;
+}
+.annotations .ann.en + .ann { margin-top: 2.8em; }
+.tn {
+  margin-top: 3em;
+  padding: 2.2em 0 0 var(--ann-indent);
+  border-top: 1px solid var(--rule);
+  font-family: var(--latin);
+  font-size: 14.5px; line-height: 1.7; letter-spacing: .005em;
+  -webkit-hyphens: auto; hyphens: auto;
+}
+.tn-label { font-weight: 500; letter-spacing: .04em; margin-bottom: 1.1em; }
+.tn p + p { margin-top: .9em; }
+.tn p { scroll-margin-top: 40px; }
+.tn b { font-weight: 500; }
+@media (max-width: 640px) { .annotations .ann.en, .tn { font-size: 13.5px; } }
 .annotations p + p { margin-top: .9em; }
 @media (max-width: 640px) { .annotations { font-size: 13px; } }
 .ps-label {
@@ -177,6 +223,13 @@ html.js .bgstrip {
   font-size: 15px;
   letter-spacing: .06em;
   text-align: right;
+}
+.signature .sig-en {
+  display: block;
+  margin-top: .35em;
+  font-family: var(--latin);
+  font-size: 14px;
+  letter-spacing: .03em;
 }
 section[aria-label="注釈と署名"] .annotations {
   border-top: 1px solid var(--rule);
@@ -262,6 +315,9 @@ section[aria-label="注釈と署名"] .annotations {
       <div class="tgroup">
         <p>リミナルスペースとは、かつて「オルタナティブ・スペース」と呼ばれていたものの「死体」である<sup class="fnref" id="fnref-1"><a href="#ann-1" aria-label="注釈1へ">（1）</a></sup>。</p>
       </div>
+      <div class="en" lang="en">
+        <p>Liminal space is the corpse of what was once called alternative space.<sup class="fnref"><a href="#ann-1-en" id="fnref-1-en" aria-label="Note 1">(1)</a></sup></p>
+      </div>
     </div>
   </section>
 
@@ -271,6 +327,9 @@ section[aria-label="注釈と署名"] .annotations {
     <div class="prose">
       <div class="tgroup">
         <p>もちろん、ネットミームとしてのリミナルスペースは、決してそのように定義されてこなかった。インターネット上のリミナルスペースに「新たな美学」を見出そうとする人々は概ね、それらを現代における最新の「不気味なもの」、つまり新しい「外部」や「他者」として受け取り、ネットカルチャー発の創造的ムーブメントに違いないと言祝いでいる<sup class="fnref" id="fnref-2"><a href="#ann-2" aria-label="注釈2へ">（2）</a></sup>。</p>
+      </div>
+      <div class="en" lang="en">
+        <p>Liminal space as an internet meme has of course never been defined in these terms. Those who look for a “new aesthetics” in the liminal spaces circulating online generally take them as the latest instance of the uncanny — a new “outside,” a new “other” — and celebrate them, certain they must be a creative movement born out of internet culture.<sup class="fnref"><a href="#ann-2-en" id="fnref-2-en" aria-label="Note 2">(2)</a></sup></p>
       </div>
     </div>
   </section>
@@ -283,6 +342,10 @@ section[aria-label="注釈と署名"] .annotations {
         <p>しかし、そのようなトレンドの「美学化」「言語化」こそが、私たちの目の前に転がる「オルタナティブ・スペースの死体」を覆い隠す。いくらリミナル性についての理論を遡り、ブルータリズム建築やシュルレアリスムとの類似、影響関係を並べたてたところで、結局のところ、それらは不気味さや不穏さ、奇妙なノスタルジーといった感情を掻き立てるイメージのリスト（wiki）でしかない。</p>
         <p>リミナルスペースは人類学や美術史と淀みなく連続しているはずである、と考えるその「美学」こそが、オルタナティブ・スペースが死んでしまったこの現実に対する「否認」なのだ。そしてもちろん、リミナルスペースなど浅薄なネットカルチャーのトレンドに過ぎず、アートと全く関係がないとする態度もまた、現代美術の置かれた絶望的な現状から目を背ける否認にほかならない。</p>
       </div>
+      <div class="en" lang="en">
+        <p>But it is precisely this — a trend given an aesthetics and given a language — that covers up the corpse of the alternative space lying in front of us. However far back one traces the theory of liminality, however many affinities and lines of influence with Brutalist architecture or Surrealism one reels off, what is left at the end is nothing more than a list of images — a wiki — that stirs up the uncanny, the unsettling, the strangely nostalgic.</p>
+        <p>That “aesthetics” — the assumption that liminal space is seamlessly continuous with anthropology and art history — is itself a disavowal of the reality that the alternative space has died. And the opposite posture, which dismisses liminal space as a shallow internet-culture trend with nothing to do with art, is equally a disavowal, a way of looking away from the desperate position contemporary art now finds itself in.</p>
+      </div>
     </div>
   </section>
 
@@ -293,6 +356,10 @@ section[aria-label="注釈と署名"] .annotations {
       <div class="tgroup">
         <p>現代美術はその始まりからずっと、新たなオルタナティブ・スペースの誕生とともにあった。にもかかわらず、ここ十数年で加速度的に進行し、手の施しようがないように見えるオルタナティブ・スペースの死について、誰もが語ろうとしない。</p>
         <p>リミナルスペースが「新たな美学」（オルタナティブ・スペースは新しく生まれている）であってほしいと望む否認と、リミナルスペースなど「アートに比べれば」取るに足らないもの（オルタナティブ・スペースはまだ死んでいない）であると切り捨てる否認。その二つの否認が招いたのは、一方では無内容なアートフェアの乱立や、ヴィジョンを欠いたブランディングとしてのアート投資の流行であり、また一方では権威主義の復活や、ネット・アクティヴィズムと一体化したアートのポピュリズム化であった。</p>
+      </div>
+      <div class="en" lang="en">
+        <p>Contemporary art has, from its beginnings, moved in step with the birth of new alternative spaces. And yet no one will speak about the death of the alternative space — a death that has been accelerating for over a decade and by now seems beyond remedy.</p>
+        <p>The double disavowal, then. One half wants liminal space to be a “new aesthetics”: new alternative spaces are still being born. The other dismisses liminal space as beneath art: the alternative space has not died yet. Together they have produced a proliferation of vacuous art fairs, a vogue for art investment as branding without vision, a revival of deference to authority, and a populist turn in an art that has merged with online activism.</p>
       </div>
     </div>
   </section>
@@ -305,6 +372,10 @@ section[aria-label="注釈と署名"] .annotations {
         <p>まず私たちが立ち返るべきは、リミナルスペースが「ネットホラー」のひとつとして生成、構築され、流通している、という事実である。そもそも、ネットミームとしてのリミナルスペースの起源が、ネット掲示板に投稿された「ヤバい画像（cursed images）」「落ち着けない画像（unsettling images）」だったのは、そこに映っているものがまぎれもなく「死体としての空間」であり、多くの人々が直感的、無意識的にその死臭を嗅ぎ取ったからなのだ<sup class="fnref" id="fnref-3"><a href="#ann-3" aria-label="注釈3へ">（3）</a></sup>。</p>
         <p>かつてオルタナティブ・スペースと呼ばれた空間に投影されていた、あらゆるヴィジョンや可能性や期待が、色褪せながら消滅へ向かっていったその果てに、ネクロフィリアとしてのリミナルスペースが現れたのである。</p>
       </div>
+      <div class="en" lang="en">
+        <p>What we should return to first is the fact that liminal space is generated, constructed, and circulated as a form of internet horror. If liminal space as a meme originated in the cursed images and unsettling images posted to online forums, that is because what those images show is unmistakably space-as-corpse, and because a great many people caught the smell of death coming off them, intuitively and unconsciously.<sup class="fnref"><a href="#ann-3-en" id="fnref-3-en" aria-label="Note 3">(3)</a></sup></p>
+        <p>Every vision, every possibility, every expectation once projected onto the spaces we called alternative faded as it drifted towards extinction, and at the end of that process liminal space appeared, as necrophilia.</p>
+      </div>
     </div>
   </section>
 
@@ -315,6 +386,10 @@ section[aria-label="注釈と署名"] .annotations {
       <div class="tgroup">
         <p>リミナルスペースについて考えるとき、私はいつも、ある前衛美術家の作品を思い出す。暗く、陰鬱な空気が漂う小さいギャラリーに、棺桶のような木箱が並んでいる。木箱には透明なビニール袋がかぶせられており、中には大量の新聞紙が乱雑に投げ入れられている。天井もまた、透明なビニールで覆われ、まるで雨漏りした水を受け止めるかのように、ところどころ水溜まりができている。記録によれば、アーティストがジョウロを持って、木箱の中の新聞紙に「水やり」をしていたらしい。「蓄積された情報を耕す」という意味があったそうだ。</p>
         <p>５０年以上も前の作品なので、もちろん私は実見していない。しかし、いつだったか記録集で偶然目にした当時の白黒写真は、私の脳裏に焼きついた。ここ数年のリミナルスペースの流行を眺めながら、何度もこの記録写真を思い出したのは、その写真にリミナルスペースの起源を見たからではなかった。そうではなく、それがネットミームとしてのリミナルスペースにはない、「死体に水をやる（耕す）」風景だったからだ。</p>
+      </div>
+      <div class="en" lang="en">
+        <p>Whenever I think about liminal space, a work by a certain avant-garde artist surfaces in my mind. In a small gallery, dim and heavy with gloom, coffin-like wooden boxes are lined up. A clear plastic bag has been pulled over each box, and inside, great quantities of newspaper have been thrown in haphazardly. The ceiling, too, is covered in clear plastic, and here and there water has collected in pools, as though catching the drip of a leaking roof. According to the records, the artist would take a watering can and “water” the newspapers inside the boxes. The gesture is said to have meant “tilling the accumulated information.”</p>
+        <p>The work is more than fifty years old, so of course I never saw it in person. But a black-and-white photograph from the time, which I once came across by chance in a volume of documentation, burned itself into my mind. Watching the liminal space boom of the last few years, I have returned to that photograph again and again — not because I saw the origin of liminal space in it, but because it showed something liminal space as an internet meme does not have: a corpse being watered, being tilled.</p>
       </div>
     </div>
   </section>
@@ -327,6 +402,10 @@ section[aria-label="注釈と署名"] .annotations {
         <p>リミナルスペースの発生に先行するのはオルタナティブ・スペースの死であり、その逆ではない。そして、オルタナティブ・スペースの死をめぐる様々な否認は、その「死因」を覆い隠すことからはじまっている。本当は、誰もがその原因を知っているが、語りたくないのだ。</p>
         <p>あえて乱暴に、その「死因」を言葉にしてみるなら、それはおそらく、芸術における「一次産業」の失敗と放棄、である。そもそもオルタナティブ・スペースは、足元の「死体」に水をやり、耕すところから生まれたはずだった。先に見た二種類の否認は、芸術の一次産業から離れ、形骸化した二次産業や、お決まりのビジネスモデルに依存した三次、四次産業が蔓延してゆくにつれて、ますます強固なものになっていった。今や人々は、芸術の一次産業とはどんなもので、どうやっていたのかすら、思い出せなくなっている。</p>
       </div>
+      <div class="en" lang="en">
+        <p>What precedes the emergence of liminal space is the death of the alternative space, not the other way around. And every disavowal surrounding that death begins by covering up its cause. Everyone in fact knows the cause. No one wants to say it.</p>
+        <p>If I put that cause of death into words, bluntly and at the risk of crudeness: the failure and abandonment of the primary sector of art. The alternative space was supposed to have been born out of watering the corpse underfoot and tilling it. The two disavowals only hardened as art drifted further from its primary sector — as a hollowed-out secondary sector spread, along with tertiary and quaternary sectors living off the standard business models. By now people can no longer even remember what the primary sector of art was, or how it was worked.</p>
+      </div>
     </div>
   </section>
 
@@ -338,6 +417,10 @@ section[aria-label="注釈と署名"] .annotations {
         <p>かつて夢に見たオルタナティブ・スペースは、もう生まれない。少なくとも当分の間は。なぜなら、もうすでに大量の、見過ごされてきた「死体」の山が積み重なり、地面すら見えなくなってしまったから。手を変え品を変え、その死体の山を覆い隠そうとした結果、漏れ出した死臭がいたるところに漂っているから。</p>
         <p>それでもなお、「アート」はその腐臭に気がつかない。だからこそ、その腐臭はネットカルチャーにまで辿り着いて、リミナルスペースとして現れた。</p>
       </div>
+      <div class="en" lang="en">
+        <p>The alternative space we once dreamed of will not be born again. Not for some time, at least. The corpses no one attended to have piled up in such numbers that the ground itself is no longer visible; and because we have tried, by one means and then another, to cover up that heap, the smell has leaked out and now hangs everywhere.</p>
+        <p>Still “art” does not notice the stench. That is exactly why the stench travelled as far as internet culture, and surfaced there as liminal space.</p>
+      </div>
     </div>
   </section>
 
@@ -348,8 +431,11 @@ section[aria-label="注釈と署名"] .annotations {
       <div class="tgroup">
         <p>もはや私たちは、この環境に適応するほかないのかもしれない。耕せど耕せど、死体は死体のままで、ついに地面を見ることが叶わないのなら、足元の死体を中間宿主として、そこで育ちうる生命へと変異するべきなのかもしれない。リミナルスペースは、どこか「外部」へとつながる扉でも、「他者」の気配でもないのだから。</p>
       </div>
+      <div class="en" lang="en">
+        <p>Perhaps there is nothing left but to adapt to this environment. If we till and till and the corpses stay corpses, if the ground is never going to come into view, then perhaps we should take the bodies underfoot as an intermediate host and mutate into whatever life can grow in them. Liminal space is not a door onto some “outside,” nor a hint of an “other.”</p>
+      </div>
     </div>
-    <p class="signature">2026年8月17日　黒瀬陽平</p>
+    <p class="signature">2026年8月17日　黒瀬陽平<span class="sig-en" lang="en">August 17, 2026 — Yohei Kurose</span></p>
   </section>
 
   <div class="gap" aria-hidden="true"></div>
@@ -369,20 +455,44 @@ section[aria-label="注釈と署名"] .annotations {
 
   <section class="band-text" aria-label="注釈と署名">
     <div class="annotations">
-      <div class="ann" id="ann-1" data-n="1">
+      <div class="ann" id="ann-1" data-n="（1）">
         <p>20世紀以降の事例に限定するとしても、国内外で生まれた「オルタナティブ・スペース」についての統一的、包括的な定義は存在していない。したがって、本テキストにおけるオルタナティブ・スペースとは一体どのようなものを指しているのか、不明瞭に感じる読者は多いだろう。しかし一方で、そのような統一的、包括的な定義を与えようとすることが、個々のオルタナティブ・スペースが持つ固有の文脈を覆い隠してしまうこともある。</p>
         <p>例えば、戦後日本美術史における「日本初のオルタナティブ・スペース」は「佐賀町エキジビット・スペース」(1983~2000年)であるとされている。開設者であり主宰であった小池一子によれば、ニューヨークのPS1設立に大きな示唆を受け、その命名やコンセプトメイクに至るまで、当時の「グローバル・スタンダードを第一義として」いたという。このようなストーリーは、1980年代から国内で進行した「ポストモダン化」によって国外へと開かれてゆくアートシーン、といったお決まりの教科書的歴史観に合致するものだろう。</p>
         <p>しかし、小池一子といえばまず何よりも、1980年に田中一光とともに西友のプライベートブランド「無印良品」を立ち上げたセゾングループの伝説的プロデューサーであり、その背景には、学生運動に挫折した堤清二によって作られた新たな都市型百貨店（パルコ）の登場や、民間企業主導の消費と文化による「街づくり」（西武劇場、渋谷公園通り）といった、極めてドメスティックな戦後日本社会史、経済・産業史が横たわっている。</p>
         <p>堤清二が、グループ理念である「経営共和制」「顧客最優先」を提唱したのが戦後日本美術史の「前衛の終焉」である1968年だったこと、70年代から80年代にかけて「市民産業」「生活総合産業」といったスローガンのもと、アート、ファッション、デザイン、広告、音楽、映画といったあらゆる芸術領域を、多角化した百貨店経営に取り込んでいったこと、そしてバブル経済崩壊後、それらが解体されていったことなどは、すべて「日本初のオルタナティブ・スペース」と無関係ではないはずである。</p>
         <p>美術史研究であれ美術批評であれ、今のところ、このような二つの文脈を統合する言説は確立されておらず、一方を語ればもう一方は背後に退く、というジレンマを解消し得ていない。これについては別の場所で詳しく論じるつもりであるが、本テキストおよび本展で使用されるオルタナティブ・スペースという語は、以上のような批評的関心に基づいて用いられている。</p>
       </div>
-      <div class="ann" id="ann-2" data-n="2">
+      <div class="ann en" id="ann-1-en" data-n="(1)" lang="en">
+        <p>No unified or comprehensive definition of the alternative space exists — not for Japan, not elsewhere — even if we restrict ourselves to cases from the twentieth century onward. Many readers will therefore find it unclear what exactly the term refers to in this text. At the same time, the attempt to supply such a definition can itself obscure the particular context each alternative space carries.</p>
+        <p>Take the case usually cited as the first alternative space in postwar Japanese art history: Sagacho Exhibit Space (1983–2000).<sup class="tnref"><a href="#tn-1" aria-label="Translator’s note 1">[TN1]</a></sup> According to Kazuko Koike, who founded and directed it, she took a strong cue from the founding of PS1 in New York and made the global standard her first principle in everything from the naming of the space to the shaping of its concept. That story fits the familiar textbook account in which the Japanese art scene opened outward through the postmodernisation that ran through the country from the 1980s on.</p>
+        <p>But Kazuko Koike is, before anything else, the legendary Saison Group producer who launched Seiyu’s private brand MUJI with Ikko Tanaka in 1980.<sup class="tnref"><a href="#tn-2" aria-label="Translator’s note 2">[TN2]</a></sup> Behind that lies a thoroughly domestic history of postwar Japanese society, economy, and industry: the emergence of PARCO, the new urban department store created by Seiji Tsutsumi after the failure of his involvement in the communist student movement, and the making of city districts through consumption and culture under private enterprise — the Seibu Theatre, Shibuya’s Koen-dori.<sup class="tnref"><a href="#tn-3" aria-label="Translator’s note 3">[TN3]</a></sup></p>
+        <p>Tsutsumi advanced his group principles of “managerial republicanism” and “customer first” in 1968, the year treated in postwar Japanese art history as the end of the avant-garde.<sup class="tnref"><a href="#tn-4" aria-label="Translator’s note 4">[TN4]</a></sup> Through the 1970s and 1980s, under slogans such as “citizens’ industry” and “the integrated industry of everyday life,” he drew art, fashion, design, advertising, music, and film — every artistic field — into a diversified department store business; and after the collapse of the bubble economy, all of it was dismantled. None of this can be unrelated to the “first alternative space in Japan.”</p>
+        <p>Neither art-historical research nor art criticism has yet established a discourse that integrates these two contexts, and the dilemma remains unresolved: tell one and the other recedes into the background. I intend to treat this at length elsewhere. The term alternative space, as it is used in this text and in this exhibition, rests on that critical concern.</p>
+      </div>
+      <div class="ann" id="ann-2" data-n="（2）">
         <p>たとえば、ALT236『リミナルスペース　新しい恐怖の美学』（フィルムアート社、2025年）など。</p>
       </div>
-      <div class="ann" id="ann-3" data-n="3">
+      <div class="ann en" id="ann-2-en" data-n="(2)" lang="en">
+        <p>See, for example, ALT236, <i>Liminal : les nouveaux espaces de l’angoisse</i> (Paris: Hoëbeke, 2023); Japanese edition <i>Riminaru supēsu: atarashii kyōfu no bigaku</i>, trans. Yuka Sano (Tokyo: Film Art, 2025).</p>
+      </div>
+      <div class="ann" id="ann-3" data-n="（3）">
         <p>妖怪研究で知られる文化人類学者の廣田龍平は、リミナルスペースがネットミームになるきっかけとなった動画『The Backrooms (Found Footage)』(2022年1月7日投稿)について、現代のネットホラーを象徴する３つの要素「ファウンドフッテージ、アナログホラー、モキュメンタリー」が含まれているとして、そのルーツのひとつに、2003年10月26日未明に２ちゃんねるの「オカルト板」にスレッドが立てられた『これって何？』を挙げている（廣田龍平『ネット怪談の民俗学』ハヤカワ新書、2024年、pp222-228）。一般的にリミナルスペースの起源として挙げられる2010年代の画像系SNSや4ch、「SCP財団」などではなく、2000年代日本のネットコンテンツ（ネット怪談）からの連続性を見出そうとする廣田の分析は示唆に富んでいる。</p>
         <p>実際、2004年に公開されたフリーゲーム『ゆめにっき』など、リミナルスペース的なモチーフを扱った高度なクリエイションは、2000年代日本のネットカルチャーのなかで盛んに行われていた。このことは、廣田もたびたび参照するレフ・マノヴィッチのよく知られたテーゼ「ニューメディアにおいては、ナラティブよりデータベースが優先される」情報環境のなかでの創造行為が、すでに2000年代の日本のネットカルチャーにおいて、成熟の域に達していたことを示している。そして2010年代以降、より極端に「データベースドリブン」なコンテンツ、ネットミームがグローバルに拡散していったというプロセスが見て取れる。</p>
         <p>だとすれば、現在の私たちは、マノヴィッチのテーゼをなぞるように現実を分析するのではなく、デジタルデバイスとソーシャルメディアが世界中に浸透したことによって新たに起こっている、「ナラティブ」リテラシーと「データベース」リテラシーの乖離、つまり、特定のジャンルのデータベース構築に参画できる者たちと、そこから生成されるナラティブしか受容することができない者たちの間に拡がる「格差」について考える必要があるだろう。</p>
+      </div>
+      <div class="ann en" id="ann-3-en" data-n="(3)" lang="en">
+        <p>Ryuhei Hirota, the cultural anthropologist known for his work on <i>yōkai</i>, notes that <i>The Backrooms (Found Footage)</i> — the video uploaded on January 7, 2022 that turned liminal space into an internet meme — contains the three elements that characterise contemporary internet horror: found footage, analog horror, and mockumentary. He traces one of its roots to a thread titled “Kore tte nani?” (“What is this?”), opened in the early hours of October 26, 2003 on the Occult board of the Japanese textboard 2channel.<sup class="tnref"><a href="#tn-5" aria-label="Translator’s note 5">[TN5]</a></sup> (Ryuhei Hirota, <i>Netto kaidan no minzokugaku</i> [The Folklore of Internet Ghost Stories], Tokyo: Hayakawa Shinsho, 2024, pp. 222–228.) The usual candidates for the origin of liminal space are the image-based social media, the imageboard 4chan, and the SCP Foundation of the 2010s. Hirota instead looks for continuity between liminal space and the internet content of 2000s Japan — the internet ghost story — and his analysis is insightful.</p>
+        <p>Highly developed creative work using liminal-space motifs was in fact already common in the internet culture of 2000s Japan; the 2004 freeware game <i>Yume Nikki</i> is one example.<sup class="tnref"><a href="#tn-6" aria-label="Translator’s note 6">[TN6]</a></sup> This indicates that creation within an information environment where, as Lev Manovich’s well-known thesis has it, the database takes precedence over narrative in new media — a thesis Hirota returns to repeatedly — had already reached maturity in the Japanese internet culture of the 2000s. From the 2010s onward one can trace the process by which more extreme, database-driven content and internet memes spread globally.</p>
+        <p>If that is so, our task now is not to analyse reality by tracing Manovich’s thesis, but to think about something newly produced by the worldwide penetration of digital devices and social media: the divergence between “narrative” literacy and “database” literacy — the widening gap between those who can take part in building the database of a given genre and those who can only receive the narratives generated out of it.</p>
+      </div>
+      <div class="tn" lang="en">
+        <p class="tn-label">Translator’s notes</p>
+        <p id="tn-1"><b>[TN1] Sagacho Exhibit Space</b> — An exhibition space opened in 1983 in the third-floor hall of the Shokuryo (“Foodstuffs”) Building of 1927, in a Tokyo district that had prospered as a rice-wholesaling market. Widely described as Japan’s first alternative space, it closed in 2000.</p>
+        <p id="tn-2"><b>[TN2] Kazuko Koike, Seiyu, MUJI, Ikko Tanaka</b> — Koike (b. 1936) is a creative director and curator. Seiyu is a national supermarket chain, then part of the Saison Group; MUJI launched in 1980 as its no-logo private label and later became an independent global retailer. Ikko Tanaka (1930–2002) was one of postwar Japan’s leading graphic designers.</p>
+        <p id="tn-3"><b>[TN3] Saison Group, Seiji Tsutsumi, PARCO, Seibu Theatre, Koen-dori</b> — Tsutsumi (1927–2013) was a businessman, poet, and novelist who built the Seibu department stores into the Saison Group, a retail and cultural conglomerate central to the consumer culture of 1970s–80s Japan. He had been active in the Japanese Communist Party as a student and broke with it around 1950; this is the failure the text refers to. PARCO, the group’s fashion-department chain, opened its first store in Ikebukuro in 1969 and its Shibuya store in 1973; the Seibu Theatre opened inside the Shibuya building the same year, and the surrounding Koen-dori was developed as a corporate-produced cultural district. The group was broken up in the years following the collapse of the asset bubble.</p>
+        <p id="tn-4"><b>[TN4] 1968 and “the end of the avant-garde”</b> — With communist student movement at their height and the preparations for Expo ’70 in Osaka drawing many artists into a project of state and industry, 1968 is often referred to as the point at which the postwar Japanese avant-garde came to an end.</p>
+        <p id="tn-5"><b>[TN5] 2channel</b> — The anonymous Japanese textboard opened in 1999, through the 2000s the dominant forum of Japanese internet culture and the source of much of its vernacular, including its horror and ghost-story genres. It was renamed 5channel in 2017.</p>
+        <p id="tn-6"><b>[TN6] <i>Yume Nikki</i></b> — A freeware exploration game released in 2004 by the pseudonymous developer Kikiyama, in which the player wanders the dream worlds of a girl who will not leave her room. It has a substantial international cult following under its Japanese title.</p>
       </div>
     </div>
   </section>
@@ -434,17 +544,45 @@ section[aria-label="注釈と署名"] .annotations {
     if (reduced || lit) overlay.remove();
   }
 
-  /* ---- 背景の写真帯: 文字とずれて流れる ---- */
+  /* ---- 背景の写真帯: 文字とずれて流れる（足りない分は写真をループ） ---- */
   var strip = document.querySelector('.bgstrip');
   if (strip) {
+    var PHOTOS_PER_SCREEN = 1.2;
+    var base = Array.prototype.slice.call(strip.querySelectorAll('img'));
+    var loopSet = base.slice(1);
+    function ratioOf(im) { return (+im.getAttribute('height')) / (+im.getAttribute('width')); }
+    var ratios = loopSet.map(ratioOf);
+    var avgRatio = ratios.reduce(function (a, b) { return a + b; }, 0) / ratios.length;
+    var clones = [];
     var k = 1;
+    var lastW = 0;
+
+    function fill() {
+      clones.forEach(function (c) { c.remove(); });
+      clones = [];
+      var vh = window.innerHeight;
+      var w = strip.clientWidth || window.innerWidth;
+      var docH = document.documentElement.scrollHeight;
+      var need = PHOTOS_PER_SCREEN * (w * avgRatio) / vh * (docH - vh) + vh;
+      var have = base.reduce(function (s, im) { return s + w * ratioOf(im); }, 0);
+      var frag = document.createDocumentFragment();
+      for (var i = 0; have < need && i < 400; i++) {
+        var c = loopSet[i % loopSet.length].cloneNode(false);
+        c.alt = '';
+        frag.appendChild(c);
+        clones.push(c);
+        have += w * ratios[i % ratios.length];
+      }
+      strip.appendChild(frag);
+      lastW = w;
+    }
     function measure() {
       var vh = window.innerHeight;
-      var stripH = strip.scrollHeight;
       var docH = document.documentElement.scrollHeight;
-      k = (docH - vh) > 0 ? (stripH - vh) / (docH - vh) : 1;
+      k = (docH - vh) > 0 ? (strip.scrollHeight - vh) / (docH - vh) : 1;
       apply();
     }
+    function rebuild() { fill(); measure(); }
     var ticking = false;
     function apply() {
       ticking = false;
@@ -455,12 +593,13 @@ section[aria-label="注釈と署名"] .annotations {
       if (!ticking) { ticking = true; requestAnimationFrame(apply); }
     }
     window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('resize', measure);
-    window.addEventListener('load', measure);
-    strip.querySelectorAll('img').forEach(function (im) {
-      if (!im.complete) im.addEventListener('load', measure);
+    window.addEventListener('resize', function () {
+      var w = strip.clientWidth || window.innerWidth;
+      if (Math.abs(w - lastW) > 1) rebuild(); else measure();
     });
-    measure();
+    window.addEventListener('load', rebuild);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(rebuild);
+    rebuild();
   }
 })();
 </script>
