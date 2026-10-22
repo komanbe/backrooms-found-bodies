@@ -1,0 +1,4 @@
+# GitHub Pages (Jekyll) build settings.
+# README.md is a working note for this repository, not part of the site.
+exclude:
+  - README.md
