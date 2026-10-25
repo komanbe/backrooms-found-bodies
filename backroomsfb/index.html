@@ -30,6 +30,8 @@
   --ink: #1C1C1A;
   --sub: #6d6a63;
   --dim: #4a4843;
+  --blue: 31, 77, 170;
+  --blue-solid: rgb(31, 77, 170);
   --accent: #6E5602;
   --rule: rgba(28, 28, 26, .28);
   --fs-body: 17.5px;
@@ -128,6 +130,7 @@ html.js .bgstrip {
   padding: clamp(40px, 7vh, 72px) clamp(20px, 5vw, 48px);
 }
 .gap { height: 64vh; }
+.gap.to-blue { background: linear-gradient(to bottom, var(--veil), var(--blue-solid)); }
 .gap.s { height: 34vh; }
 .prose {
   max-width: var(--measure);
@@ -241,6 +244,15 @@ section[aria-label="注釈と署名"] .annotations {
 }
 
 /* ---------------- 開催概要 ---------------- */
+#info, .site-foot {
+  --veil: var(--blue-solid);
+  --ink: #F4F2EE;
+  --dim: #D7E2F6;
+  --sub: #AFC1E2;
+  --rule: rgba(244, 242, 238, .34);
+  --accent: #E8C45A;
+  color: var(--ink);
+}
 .sec {
   background: var(--veil);
   padding: clamp(48px, 8vh, 88px) clamp(20px, 5vw, 48px);
@@ -514,7 +526,7 @@ section[aria-label="注釈と署名"] .annotations {
     </div>
   </section>
 
-  <div class="gap" aria-hidden="true"></div>
+  <div class="gap to-blue" aria-hidden="true"></div>
 
   <section id="info" class="sec">
     <header class="sec-head">
@@ -668,6 +680,37 @@ section[aria-label="注釈と署名"] .annotations {
     });
   }
 
+  /* ---- 終盤、紙がだんだん青を帯びる（文字が読める範囲の淡い青まで） ---- */
+  var annSec = document.querySelector('.band-text[aria-label="注釈と署名"]');
+  var toBlue = document.querySelector('.gap.to-blue');
+  var root = document.documentElement;
+  var PAPER = [244, 242, 238], BLUE = [31, 77, 170];
+  var TINT_MAX = 0.38;
+  var tintStart = 0, tintEnd = 1;
+  function mixc(a, b, t) {
+    return [Math.round(a[0] + (b[0] - a[0]) * t),
+            Math.round(a[1] + (b[1] - a[1]) * t),
+            Math.round(a[2] + (b[2] - a[2]) * t)];
+  }
+  function applyTint() {
+    if (!annSec || !toBlue) return;
+    var span = tintEnd - tintStart;
+    var p = span > 0 ? (window.scrollY - tintStart) / span : 0;
+    p = p < 0 ? 0 : (p > 1 ? 1 : p);
+    var c = mixc(PAPER, BLUE, TINT_MAX * p);
+    root.style.setProperty('--veil', 'rgba(' + c[0] + ',' + c[1] + ',' + c[2] + ',' + (0.74 + 0.12 * p).toFixed(3) + ')');
+    var bg = mixc(PAPER, BLUE, p * p * p);
+    root.style.setProperty('--bg', 'rgb(' + bg[0] + ',' + bg[1] + ',' + bg[2] + ')');
+  }
+  function measureTint() {
+    if (!annSec || !toBlue) return;
+    var vh = window.innerHeight;
+    tintStart = annSec.getBoundingClientRect().top + window.scrollY - vh * 0.85;
+    tintEnd = toBlue.getBoundingClientRect().top + window.scrollY - vh * 0.25;
+    if (tintEnd <= tintStart) tintEnd = tintStart + 1;
+    applyTint();
+  }
+
   /* ---- 背景の写真帯: 文字とずれて流れる（足りない分は写真をループ） ---- */
   var strip = document.querySelector('.bgstrip');
   if (strip) {
@@ -706,12 +749,13 @@ section[aria-label="注釈と署名"] .annotations {
       k = (docH - vh) > 0 ? (strip.scrollHeight - vh) / (docH - vh) : 1;
       apply();
     }
-    function rebuild() { typeset(); fill(); measure(); }
+    function rebuild() { typeset(); fill(); measure(); measureTint(); }
     var ticking = false;
     function apply() {
       ticking = false;
       var y = Math.max(0, window.scrollY) * k;
       strip.style.transform = 'translate3d(0, ' + (-y).toFixed(1) + 'px, 0)';
+      applyTint();
     }
     function onScroll() {
       if (!ticking) { ticking = true; requestAnimationFrame(apply); }
