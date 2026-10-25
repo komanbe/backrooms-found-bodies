@@ -681,7 +681,8 @@ section[aria-label="注釈と署名"] .annotations {
   }
 
   /* ---- 終盤、紙がだんだん青を帯びる（文字が読める範囲の淡い青まで） ---- */
-  var annSec = document.querySelector('.band-text[aria-label="注釈と署名"]');
+  var annSec = document.querySelector('.band-text[aria-label="追記"]')
+         || document.querySelector('.band-text[aria-label="注釈と署名"]');
   var toBlue = document.querySelector('.gap.to-blue');
   var root = document.documentElement;
   var PAPER = [244, 242, 238], BLUE = [31, 77, 170];
