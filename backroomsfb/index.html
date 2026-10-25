@@ -132,7 +132,7 @@ html.js .bgstrip {
   padding: clamp(40px, 7vh, 72px) clamp(20px, 5vw, 48px);
 }
 .gap { height: 64vh; }
-.gap.to-blue { background: linear-gradient(to bottom, var(--veil), var(--blue-solid)); }
+.gap.to-blue { background: linear-gradient(to bottom, var(--veil) 0%, var(--blue-solid) 58%, var(--blue-solid) 100%); }
 .gap.s { height: 34vh; }
 .prose {
   max-width: var(--measure);
@@ -700,12 +700,14 @@ section[aria-label="注釈と署名"] .annotations {
   }
 
   /* ---- 終盤、紙がだんだん青を帯びる（文字が読める範囲の淡い青まで） ---- */
-  var annSec = document.querySelector('.band-text[aria-label="追記"]')
+  var sigEl = document.querySelector('.signature');
+  var annSec = (sigEl && sigEl.closest && sigEl.closest('.band-text'))
+         || document.querySelector('.band-text[aria-label="追記"]')
          || document.querySelector('.band-text[aria-label="注釈と署名"]');
   var toBlue = document.querySelector('.gap.to-blue');
   var root = document.documentElement;
   var PAPER = [244, 242, 238], BLUE = [31, 77, 170];
-  var TINT_MAX = 0.38;
+  var TINT_MAX = 0.46;
   var tintStart = 0, tintEnd = 1;
   function mixc(a, b, t) {
     return [Math.round(a[0] + (b[0] - a[0]) * t),
