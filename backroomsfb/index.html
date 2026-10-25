@@ -260,7 +260,20 @@ section[aria-label="注釈と署名"] .annotations {
   border-top: 1px solid var(--rule);
 }
 .ledger > div:last-child { border-bottom: 1px solid var(--rule); }
-.ledger dt { flex: 0 0 7em; color: var(--sub); }
+.ledger dt { flex: 0 0 8.6em; color: var(--sub); white-space: nowrap; }
+.ledger dd .note { color: var(--sub); font-size: .92em; }
+.part-label {
+  max-width: var(--measure); margin: 0 auto;
+  font-family: var(--gothic); font-weight: 400;
+  font-size: 13px; letter-spacing: .14em;
+  color: var(--ink);
+}
+.ledger + .part-label { margin-top: 3.2em; }
+.part-label + .ledger { margin-top: .9em; }
+@media (max-width: 640px) {
+  .ledger > div { display: block; }
+  .ledger dt { flex: none; margin-bottom: .2em; font-size: .92em; }
+}
 .ledger dd .en { font-family: var(--latin); font-weight: 400; font-size: 1.15em; letter-spacing: .05em; }
 .fineprint {
   max-width: var(--measure); margin: 2.4em auto 0;
@@ -506,21 +519,58 @@ section[aria-label="注釈と署名"] .annotations {
     <header class="sec-head">
       <span class="h-ja">開催概要</span>
     </header>
+    <p class="part-label">＜第1部＞</p>
     <dl class="ledger">
       <div>
         <dt>展覧会名</dt>
         <dd><span class="en">Backrooms <i>(Found Bodies)</i></span></dd>
       </div>
       <div>
-        <dt>第1部</dt>
-        <dd>会期｜2026年11月<br>会場｜都内某所</dd>
+        <dt>会期</dt>
+        <dd>2026年11月14日（土）〜29日（日）</dd>
       </div>
       <div>
-        <dt>第2部</dt>
-        <dd>会期｜2026年12月<br>会場｜関西某所</dd>
+        <dt>営業時間</dt>
+        <dd>13:00〜19:00<br><span class="note">※11月16日（月）は休廊</span></dd>
+      </div>
+      <div>
+        <dt>会場</dt>
+        <dd>THE SHOP｜専門店<br><span class="note">東京都杉並区高円寺南5-44-1</span></dd>
+      </div>
+      <div>
+        <dt>入場料</dt>
+        <dd>1,000円<br><span class="note">1部2部共通券、高校生以下無料</span></dd>
+      </div>
+      <div>
+        <dt>参加アーティスト</dt>
+        <dd>HouxoQue、27 (isibchil)、大竹舞人、梶原康紀、堅田尚、佐藤達也、シゲル・マツモト、下村悠天、出川慶亮、東城信之介、藤城嘘、堀江たくみ、安村卓士</dd>
       </div>
     </dl>
-    <p class="fineprint">※会場・日時などの詳細情報は、順次本ページにて公開されます。</p>
+
+    <p class="part-label">＜第2部＞</p>
+    <dl class="ledger">
+      <div>
+        <dt>展覧会名</dt>
+        <dd><span class="en">Backrooms <i>(Other Ghosts)</i></span></dd>
+      </div>
+      <div>
+        <dt>会期</dt>
+        <dd>2026年12月12日（土）〜20日（日）<br>2027年1月7日（木）〜24日（日）</dd>
+      </div>
+      <div>
+        <dt>営業時間</dt>
+        <dd>13:00〜19:00<br><span class="note">※月曜close（1/11祝はopen）</span></dd>
+      </div>
+      <div>
+        <dt>会場</dt>
+        <dd>イヒレナ<br><span class="note">大阪府豊中市服部本町3-7-18</span></dd>
+      </div>
+      <div>
+        <dt>入場料</dt>
+        <dd>1,000円<br><span class="note">1部2部共通券、高校生以下無料</span></dd>
+      </div>
+    </dl>
+    <p class="fineprint">※第2部の参加アーティストなど、詳細情報は順次本ページにて公開されます。</p>
   </section>
 
 </main>
