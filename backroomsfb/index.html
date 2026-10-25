@@ -707,7 +707,7 @@ section[aria-label="注釈と署名"] .annotations {
   var toBlue = document.querySelector('.gap.to-blue');
   var root = document.documentElement;
   var PAPER = [244, 242, 238], BLUE = [31, 77, 170];
-  var TINT_MAX = 0.46;
+  var TINT_MAX = 0.60;
   var tintStart = 0, tintEnd = 1;
   function mixc(a, b, t) {
     return [Math.round(a[0] + (b[0] - a[0]) * t),
@@ -719,8 +719,9 @@ section[aria-label="注釈と署名"] .annotations {
     var span = tintEnd - tintStart;
     var p = span > 0 ? (window.scrollY - tintStart) / span : 0;
     p = p < 0 ? 0 : (p > 1 ? 1 : p);
-    var c = mixc(PAPER, BLUE, TINT_MAX * p);
-    root.style.setProperty('--veil', 'rgba(' + c[0] + ',' + c[1] + ',' + c[2] + ',' + (0.74 + 0.12 * p).toFixed(3) + ')');
+    var e = Math.pow(p, 0.7);
+    var c = mixc(PAPER, BLUE, TINT_MAX * e);
+    root.style.setProperty('--veil', 'rgba(' + c[0] + ',' + c[1] + ',' + c[2] + ',' + (0.74 + 0.16 * e).toFixed(3) + ')');
     var bg = mixc(PAPER, BLUE, p * p * p);
     root.style.setProperty('--bg', 'rgb(' + bg[0] + ',' + bg[1] + ',' + bg[2] + ')');
   }
