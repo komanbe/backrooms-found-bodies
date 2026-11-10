@@ -54,6 +54,27 @@
 会場非公開の展覧会のため、元フォルダ（HP用写真/・HP写真再選定/）のファイルをそのままWebに上げないでください。
 新しい写真を追加する場合も同様に、メタデータを除去してから配置してください（回転もベイクすること）。
 
+## 開催概要のフォントについて（注意）
+
+開催概要とフッターの丸ゴシック（M PLUS Rounded 1c）は、`<head>` の `text=` で**使う文字だけ**を読み込んでいます。
+Google Fonts の日本語は文字グループごとに分割配信され、漢字グループの到着が遅れると、その部分だけOSの細い書体で表示されてしまうためです。
+
+**開催概要（#info）やフッターの文字を書き換えたら、この `text=` も作り直してください。**
+作り直さないと、追加した文字が細い書体のまま表示されます。作り直しは次のコマンドで:
+
+```bash
+cd backroomsfb && python3 -c "
+import re, html, urllib.parse
+s = open('index.html').read()
+block = s[s.find('<section id=\"info\"'):s.find('</footer>')]
+text = html.unescape(re.sub(r'<[^>]+>', '', block))
+enc = urllib.parse.quote(''.join(sorted({c for c in text if c not in '\n\r\t'})), safe='')
+s = re.sub(r'(family=M\+PLUS\+Rounded\+1c:wght@400;500;800&text=)[^&]*', lambda m: m.group(1) + enc, s)
+open('index.html','w').write(s)
+print('ok')
+"
+```
+
 ## 更新チェックリスト
 
 - [ ] 第2部の参加アーティストが確定したら「開催概要」に追記
